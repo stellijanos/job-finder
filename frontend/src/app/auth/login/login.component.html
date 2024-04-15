@@ -1,0 +1,28 @@
+
+
+<div id="login">
+    <form [formGroup]="loginForm" id="login-form" class="text-center" (ngSubmit)="onSubmit()">
+        <p>Login</p>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" placeholder="Email" id="email" autocomplete="email" 
+            formControlName="email"
+            [ngClass]="{
+                'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched,
+                'is-valid': loginForm.get('email')?.valid && loginForm.get('email')?.touched
+            }" 
+            >
+            <label for="email">Email</label>
+        </div>
+        <div class="form-floating mb-5">
+            <input type="password" class="form-control" placeholder="Password" id="password" autocomplete="password" 
+            formControlName="password"
+            [ngClass]="{
+                'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched,
+                'is-valid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched,
+            }"
+            >
+            <label for="password">Password</label>
+        </div>
+        <button class="btn btn-success w-100" [disabled]="loginForm.invalid">Login</button>
+    </form>
+</div>
