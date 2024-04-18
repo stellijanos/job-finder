@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
         });
     }
-
+ 
     /**
      * Reverse the migrations.
      *

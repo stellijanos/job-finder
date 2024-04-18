@@ -8,6 +8,6 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function getAll() {
-        return response()->json(User::all());
+        return response()->json(User::with('saved_jobs', 'skills', 'applications')->get());
     }
 }

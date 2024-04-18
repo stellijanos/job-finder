@@ -10,12 +10,13 @@ class Skill extends Model
 {
     use HasFactory;
 
-    public function users(): BelongsToMany {
-        return $this->belongsToMany(User::class);
-    }
 
     public function jobs(): BelongsToMany {
-        return $this->belongsToMany(Job::class);
+        return $this->belongsToMany(Job::class, 'job_skills', 'skill_id', 'job_id');
+    }
+
+    public function users(): BelongsToMany {
+        return $this->belongsToMany(User::class, 'user_skills', 'skill_id', 'user_id');
     }
 
 }
