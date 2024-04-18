@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('title',64);
-            $table->string('description', 1024);
-            $table->float('salary', 8, 2);
-            $table->string('location', 128);
+            $table->string('title',64)->nullable(false);
+            $table->string('description', 1024)->nullable(false);
+            $table->float('salary', 8, 2)->nullable(false);
+            $table->string('location', 128)->nullable(false);
             $table->timestamps();
             $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
