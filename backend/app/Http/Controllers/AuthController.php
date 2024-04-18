@@ -57,12 +57,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        return response()->json(['response' => 'ok'])->withHeaders([
-            "Content-Type" => "application/json",
-            "Access-Control-Allow-Origin" => "*",
-            "Access-Control-Allow-Methods" => "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
-            "Access-Control-Allow-Headers" => "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
-        ]);
+        return response()->json(['response' => 'ok']);
     }
 
 
@@ -100,34 +95,35 @@ class AuthController extends Controller
         $company->token = Str::uuid();
         $company->token_expires_at = Carbon::now()->toDateTimeString();
 
-
         $company->save();
 
-        return response()->json(['response' => 'ok'])->withHeaders([
-            "Content-Type" => "application/json",
-            "Access-Control-Allow-Origin" => "*",
-            "Access-Control-Allow-Methods" => "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
-            "Access-Control-Allow-Headers" => "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
-        ]);
+        return response()->json(['response' => 'ok']);
     }
+
+    // ->withHeaders([
+    //     "Content-Type" => "application/json",
+    //     "Access-Control-Allow-Origin" => "*",
+    //     "Access-Control-Allow-Methods" => "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
+    //     "Access-Control-Allow-Headers" => "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    // ])
 
 
     private function loginCompany($credentials) {
         $company = Company::where('email', $credentials['email'])->first();
 
         if (!$company) {
-            return response()->json(['response' => 'Incorrect email!'], 401);
+            return response()->json(['response' => 'Incorrect email!']);
         }
 
         if (!Hash::check($credentials['password'], $company->password)) {
-            return response()->json(['response' => 'Incorrect password!'], 401);
+            return response()->json(['response' => 'Incorrect password!']);
         }
 
         $company->token = Str::uuid();
         $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
         $company->save();
         
-        return response()->json(['response' => 'ok', 'token' => $company->token], 200);
+        return response()->json(['response' => 'ok', 'token' => $company->token]);
     
     }
 
@@ -139,7 +135,7 @@ class AuthController extends Controller
         ]);
 
         if (count($validator->errors()) !== 0) {
-            return response()->json($validator->errors(), 401);
+            return response()->json($validator->errors());
         }
 
         $credentials = [
@@ -154,14 +150,14 @@ class AuthController extends Controller
         }
 
         if (!Hash::check($credentials['password'], $user->password)) {
-            return response()->json(['response' => 'Incorrect password!'], 401);
+            return response()->json(['response' => 'Incorrect password!']);
         }
 
         $user->token = Str::uuid();
         $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
         $user->save();
         
-        return response()->json(['response' => 'ok', 'token' => $user->token], 200);    
+        return response()->json(['response' => 'ok', 'token' => $user->token]);    
     }
 
 

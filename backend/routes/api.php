@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CorsMiddleware;
+use App\Http\Middleware\SetResponseHeader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,12 +23,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/register-user', [AuthController::class,'registerUser']);
-Route::post('/register-company', [AuthController::class,'registerCompany']);
-Route::post('/login', [AuthController::class,'login']);
-Route::post('/isLoggedIn/{token}', [AuthController::class, 'isLoggedIn']);
-Route::post('/logout/{token}',[AuthController::class, 'logout']);
+Route::middleware([CorsMiddleware::class])->group(function() {
+    Route::post('/register-user', [AuthController::class,'registerUser']);
+    Route::post('/register-company', [AuthController::class,'registerCompany']);
+    Route::post('/login', [AuthController::class,'login']);
+    Route::post('/isLoggedIn/{token}', [AuthController::class, 'isLoggedIn']);
+    Route::post('/logout/{token}',[AuthController::class, 'logout']);
+    Route::get('/users', [UserController::class, 'getAll']);
+});
 
-Route::get('/users', [UserController::class, 'getAll']);
-
+// Route::post('/login', [AuthController::class,'login']);
 

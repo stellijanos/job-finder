@@ -1,3 +1,4 @@
 export interface Response {
-    response: string
+    response: string,
+    token: string | null | undefined
 }

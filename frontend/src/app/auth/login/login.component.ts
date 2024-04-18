@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginUser } from '../../models/login-user.model';
+import { LoginCredentials } from '../../models/login-credentials.model';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth.service';
+import { Response } from '../../models/response.model';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -14,7 +17,9 @@ export class LoginComponent implements OnInit {
 
   loginForm : FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder,
+    private authService: AuthService
+  ){}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -25,8 +30,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      let data: LoginUser = this.loginForm.value;
-      console.log(data);
+      let data: LoginCredentials = this.loginForm.value;
+      this.authService.login(data).subscribe(res => {
+        let response: Response = res;
+
+        console.log(response);
+      });
+
     }
   }
 }
