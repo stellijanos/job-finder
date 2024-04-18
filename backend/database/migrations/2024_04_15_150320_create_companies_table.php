@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('password');
-            $table->string('website');
+            $table->string('name')->nullable(false);
+            $table->string('email')->nullable(false);
+            $table->string('password')->nullable(false);
+            $table->string('website')->nullable(false);
+            $table->string('token',64)->unique()->nullable(false);
+            $table->dateTIme('token_expires_at');
             $table->timestamps();
         });
     }

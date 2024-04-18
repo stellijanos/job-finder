@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -36,8 +37,9 @@ class AuthController extends Controller
         $password = Hash::make(request()->get('password'));
 
         $user = User::where('email', $email)->first();
+        $company = Company::where('email', $email)->first();
 
-        if ($user) {
+        if ($user || $company) {
             return response()->json(['response' => 'Email already exists!']);
         }
 
@@ -64,6 +66,76 @@ class AuthController extends Controller
     }
 
 
+    public function registerCompany() {
+
+        $validator = Validator::make(request()->all(), [
+            'name' => ['required','max:128'],
+            'website' => ['required','max:128'],
+            'email' => ['required','email','unique:users'],
+            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()],
+            'confirmPassword' => ['required', 'same:password']
+        ]);
+
+        if (count($validator->errors()) !== 0) {
+            return response()->json($validator->errors());
+        }
+
+        $name = filter_var(request()->get('name'), FILTER_SANITIZE_STRING);
+        $website = filter_var(request()->get('website'), FILTER_SANITIZE_URL);
+        $email = filter_var(request()->get('email'), FILTER_SANITIZE_EMAIL);
+        $password = Hash::make(request()->get('password'));
+
+        $company = Company::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
+
+        if ($company || $user) {
+            return response()->json(['response' => 'Email already exists!']);
+        }
+
+        $company = new User();
+        $company->name = $name;
+        $company->website = $website;
+        $company->email = $email;
+        $company->password = $password;
+        $company->token = Str::uuid();
+        $company->token_expires_at = Carbon::now()->toDateTimeString();
+        
+        if (request()->get('middlename')) {
+            $company->middlename = filter_var(request()->get('middlename'), FILTER_SANITIZE_STRING);   
+        }
+
+        $company->save();
+
+        return response()->json(['response' => 'ok'])->withHeaders([
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+            "Access-Control-Allow-Methods" => "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
+            "Access-Control-Allow-Headers" => "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+        ]);
+    }
+
+
+    private function loginCompany($credentials) {
+        $company = Company::where('email', $credentials['email'])->first();
+
+        if (!$company) {
+            return response()->json(['response' => 'Incorrect email!'], 401);
+        }
+
+        if (!Hash::check($credentials['password'], $company->password)) {
+            return response()->json(['response' => 'Incorrect password!'], 401);
+        }
+
+        if (Auth::attempt($credentials)) {
+            $company->token = Str::uuid();
+            $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
+            $company->save();
+            
+            return response()->json(['response' => 'ok', 'token' => $company->token], 200);
+        }
+        return response()->json(['response' => 'Something went wrong'], 401);
+    }
+
 
     public function login() {
         $validator = Validator::make(request()->all(), [
@@ -83,7 +155,7 @@ class AuthController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         if (!$user) {
-            return response()->json(['response' => 'Incorrect email!'], 401);
+            return $this->loginCompany($credentials);
         }
 
         if (!Hash::check($credentials['password'], $user->password)) {
@@ -116,12 +188,29 @@ class AuthController extends Controller
 
 
 
+    private function isLoggedInCompany($token) {
+        $company = Company::where('token', $token)->first();
+
+        if (!$company) {
+            return response()->json(false);
+        }
+
+        if (Carbon::now()->gt(Carbon::parse($company->token_expires_at))) {
+            return response()->json(false);
+        }
+
+        $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
+        $company->save();
+        return response()->json(true);
+    }
+
+
     public function isLoggedIn($token) {
 
         $user = User::where('token', $token)->first();
 
         if (!$user) {
-            return response()->json(false);
+            return $this->isLoggedInCompany($token);
         }
 
         if (Carbon::now()->gt(Carbon::parse($user->token_expires_at))) {
