@@ -23,7 +23,7 @@ class AuthController extends Controller
             'middlename' => ['max:128'],
             'lastname' => ['required','max:128'],
             'email' => ['required','email','unique:users'],
-            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()],
+            'password' => ['required', ], // Password::min(8)->mixedCase()->numbers()->symbols()
             'confirmPassword' => ['required', 'same:password']
         ]);
 
@@ -72,7 +72,7 @@ class AuthController extends Controller
             'name' => ['required','max:128'],
             'website' => ['required','max:128'],
             'email' => ['required','email','unique:users'],
-            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()],
+            'password' => ['required', ], // Password::min(8)->mixedCase()->numbers()->symbols()
             'confirmPassword' => ['required', 'same:password']
         ]);
 
@@ -92,17 +92,14 @@ class AuthController extends Controller
             return response()->json(['response' => 'Email already exists!']);
         }
 
-        $company = new User();
+        $company = new Company();
         $company->name = $name;
         $company->website = $website;
         $company->email = $email;
         $company->password = $password;
         $company->token = Str::uuid();
         $company->token_expires_at = Carbon::now()->toDateTimeString();
-        
-        if (request()->get('middlename')) {
-            $company->middlename = filter_var(request()->get('middlename'), FILTER_SANITIZE_STRING);   
-        }
+
 
         $company->save();
 
@@ -126,14 +123,12 @@ class AuthController extends Controller
             return response()->json(['response' => 'Incorrect password!'], 401);
         }
 
-        if (Auth::attempt($credentials)) {
-            $company->token = Str::uuid();
-            $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
-            $company->save();
-            
-            return response()->json(['response' => 'ok', 'token' => $company->token], 200);
-        }
-        return response()->json(['response' => 'Something went wrong'], 401);
+        $company->token = Str::uuid();
+        $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
+        $company->save();
+        
+        return response()->json(['response' => 'ok', 'token' => $company->token], 200);
+    
     }
 
 
@@ -155,22 +150,18 @@ class AuthController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         if (!$user) {
-            return $this->loginCompany($credentials);
+           return $this->loginCompany($credentials);
         }
 
         if (!Hash::check($credentials['password'], $user->password)) {
             return response()->json(['response' => 'Incorrect password!'], 401);
         }
 
-        if (Auth::attempt($credentials)) {
-            
-            $user->token = Str::uuid();
-            $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
-            $user->save();
-            
-            return response()->json(['response' => 'ok', 'token' => $user->token], 200);
-        }
-        return response()->json(['response' => 'Something went wrong'], 401);
+        $user->token = Str::uuid();
+        $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
+        $user->save();
+        
+        return response()->json(['response' => 'ok', 'token' => $user->token], 200);    
     }
 
 
@@ -181,6 +172,7 @@ class AuthController extends Controller
         if ($user) {
             $user->token_expires_at = Carbon::now()->toDateTimeString();
             $user->save();
+            Auth::logout();
             return response()->json(['response'=>'ok']);
         }
         return response()->json(['response' => 'Invalid token']);
