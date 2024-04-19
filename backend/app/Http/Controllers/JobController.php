@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class JobController extends Controller
 {
     public function getAll() {
-        return response()->json(Job::with('company', 'category', 'skills', 'applications')
+        return response()->json(Job::with('company', 'category', 'skills')
         ->whereHas('skills', function ($query) {
             $query->where('name', 'Java');
         })->get());

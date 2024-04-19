@@ -23,11 +23,19 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware([CorsMiddleware::class])->group(function() {
-    Route::post('/register-user', [AuthController::class,'registerUser']);
-    Route::post('/register-company', [AuthController::class,'registerCompany']);
-    Route::post('/login', [AuthController::class,'login']);
-    Route::post('/isLoggedIn/{token}', [AuthController::class, 'isLoggedIn']);
-    Route::post('/logout/{token}',[AuthController::class, 'logout']);
+
+    Route::prefix('auth')->group(function() {
+        Route::post('/register-user', [AuthController::class,'registerUser']);
+        Route::post('/register-company', [AuthController::class,'registerCompany']);
+        Route::post('/login', [AuthController::class,'login']);
+        Route::post('/logout/{token}',[AuthController::class, 'logout']);
+    });
+
+    Route::prefix('user')->group(function() {
+        Route::post('/{token}', [UserController::class, 'getUser']);
+    });
+
+    
     Route::get('/users', [UserController::class, 'getAll']);
     Route::get('/jobs', [JobController::class, 'getAll']);
     Route::get('/skills', [SkillController::class, 'getAll']);
@@ -37,3 +45,4 @@ Route::middleware([CorsMiddleware::class])->group(function() {
         return response()->json(['response' => 'Not Found'], 404);
     });
 });
+
