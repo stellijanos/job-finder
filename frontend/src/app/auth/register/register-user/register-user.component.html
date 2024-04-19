@@ -1,5 +1,12 @@
 
 <form id="register-user-form" [formGroup]="registerUserForm" (ngSubmit)="onSubmit()">
+    <div class="alert alert-danger" *ngIf="errorMessage">
+        {{errorMessage}}
+    </div>
+    <div class="alert alert-success" *ngIf="successMessage">
+        {{successMessage}}
+    </div>
+
     <div class="form-floating mb-3">
         <input type="text" id="firstname" class="form-control" placeholder="Firstname"
         formControlName="firstname"
@@ -8,8 +15,8 @@
             'is-valid': registerUserForm.get('firstname')?.valid && registerUserForm.get('firstname')?.touched,
         }"
         >
-        <label for="firstname">Firstname</label>
-        <p class="text-danger" *ngIf="registerUserForm.get('firstname')?.invalid && registerUserForm.get('firstname')?.touched">Invalid firstname</p>
+        <label for="firstname">Firstname*</label>
+        <p class="text-danger" *ngIf="registerUserForm.get('firstname')?.invalid && registerUserForm.get('firstname')?.touched">Invalid firstname!</p>
     </div>
     <div class="form-floating mb-3">
         <input type="text" id="middlename" class="form-control" placeholder="Middlename" formControlName="middlename">
@@ -23,8 +30,8 @@
             'is-valid': registerUserForm.get('lastname')?.valid && registerUserForm.get('lastname')?.touched,
         }"
         >
-        <label for="lastname">Lastname</label>
-        <p class="text-danger" *ngIf="registerUserForm.get('lastname')?.invalid && registerUserForm.get('lastname')?.touched">Invalid lastname</p>
+        <label for="lastname">Lastname*</label>
+        <p class="text-danger" *ngIf="registerUserForm.get('lastname')?.invalid && registerUserForm.get('lastname')?.touched">Invalid lastname!</p>
     </div>
     <div class="form-floating mb-3">
         <input type="text" id="email" class="form-control" placeholder="Email"
@@ -34,8 +41,8 @@
             'is-valid': registerUserForm.get('email')?.valid && registerUserForm.get('email')?.touched,
         }"
         >
-        <label for="email">Email</label>
-        <p class="text-danger" *ngIf="registerUserForm.get('email')?.invalid && registerUserForm.get('email')?.touched">Invalid email</p>
+        <label for="email">Email*</label>
+        <p class="text-danger" *ngIf="registerUserForm.get('email')?.invalid && registerUserForm.get('email')?.touched">Invalid email!</p>
 
     </div>
     <div class="form-floating mb-3">
@@ -46,8 +53,8 @@
             'is-valid': registerUserForm.get('password')?.valid && registerUserForm.get('password')?.touched,
         }"
         >
-        <label for="password">Password</label>
-        <p class="text-danger" *ngIf="registerUserForm.get('password')?.invalid && registerUserForm.get('password')?.touched">Invalid password</p>
+        <label for="password">Password*</label>
+        <p class="text-danger" *ngIf="registerUserForm.get('password')?.invalid && registerUserForm.get('password')?.touched">Invalid password!</p>
     </div>
     <div class="form-floating mb-3">
         <input type="text" id="confirmPassword" class="form-control" placeholder="confirmPassword"
@@ -57,11 +64,13 @@
             'is-valid': registerUserForm.get('confirmPassword')?.valid && registerUserForm.get('confirmPassword')?.touched,
         }"
         >
-        <label for="confirmPassword">Confirm password</label>
-        <p class="text-danger" *ngIf="passwordsDoNotMatch()">Passwords don't match</p>
+        <label for="confirmPassword">Confirm password*</label>
+        <p class="text-danger" *ngIf="passwordsDoNotMatch()">Passwords don't match!</p>
     </div>
     <button class="btn btn-success w-100" [disabled]="registerUserForm.invalid || passwordsDoNotMatch()">Register</button>
 </form>
+
+
 <div class="d-flex justify-content-center align-items-center overlay" *ngIf="showSpinner">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>

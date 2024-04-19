@@ -2,10 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { RegisterUser } from '../models/register-user.model';
-import { RegisterCompany } from '../models/register-company.model';
+import { RegisterUser } from '../models/register-user';
+import { RegisterCompany } from '../models/register-company';
 import { Response } from '../models/response.model';
-import { LoginCredentials } from '../models/login-credentials.model';
+import { LoginCredentials } from '../models/login-credentials';
+import { RegisterResponse } from '../models/register-response';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,12 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
 
-  registerUser(user: RegisterUser): Observable<Response> {
-    return this.http.post<Response>(`${this.apiUrl}/auth/register-user`, user, this.httpOptions);
+  registerUser(user: RegisterUser): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/auth/register-user`, user, this.httpOptions);
   }
 
-  registerCompany(company: RegisterCompany): Observable<Response> {
-    return this.http.post<Response>(`${this.apiUrl}/auth/register-company`, company, this.httpOptions);
+  registerCompany(company: RegisterCompany): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/auth/register-company`, company, this.httpOptions);
   }
 
   login(credentials: LoginCredentials): Observable<Response> {

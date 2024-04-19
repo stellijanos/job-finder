@@ -1,0 +1,17 @@
+
+
+#register {
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    height:100%;
+    /* margin-top:30px; */
+}
+
+#register .type, #register .form {
+    width:500px;
+}
+
+#register .form .btn {
+    width: 50% !important;
+}

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RegisterCompany } from '../../../models/register-company.model';
+import { RegisterCompany } from '../../../models/register-company';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../auth.service';
+import { RegisterResponse } from '../../../models/register-response';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-company',
@@ -15,8 +18,12 @@ export class RegisterCompanyComponent {
 
   showSpinner: boolean = false;
 
+  errorMessage: string = '';
+  successMessage: string = '';
   
-  constructor(private formBuilder: FormBuilder) {}
+
+  
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router:Router) {}
 
   ngOnInit(): void {
     this.registerCompanyForm = this.formBuilder.group({
@@ -33,8 +40,27 @@ export class RegisterCompanyComponent {
   }
 
   onSubmit(): void {
-    let registerCompany: RegisterCompany = this.registerCompanyForm.value;
-    console.log(registerCompany);
+
+    this.showSpinner = true;
+    let company: RegisterCompany = this.registerCompanyForm.value;
+
+    this.authService.registerCompany(company).subscribe((response: RegisterResponse) => {
+        console.log(response);
+
+        if (['', undefined, null].includes(response.response)) {
+          this.errorMessage = 'Something went wrong, please try again!';
+        } else if (response.response !== 'ok') {
+          this.errorMessage = response.response;
+        } else {
+          this.errorMessage = '';
+          this.successMessage = 'Registration was successful!';
+          this.router.navigate(['/login']);
+        }
+        this.showSpinner = false;
+    })
+
+
+    // console.log(registerCompany);
   }
 
 }
