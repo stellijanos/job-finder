@@ -1,13 +1,13 @@
 
 <form id="register-company-form" [formGroup]="registerCompanyForm" (ngSubmit)="onSubmit()">
 
-    <div class="alert alert-danger" *ngIf="errorMessage">
+    <div class="alert alert-danger text-center" *ngIf="errorMessage">
         {{errorMessage}}
     </div>
-    <div class="alert alert-success" *ngIf="successMessage">
+    <div class="alert alert-success text-center" *ngIf="successMessage">
         {{successMessage}}
     </div>
-    
+
     <div class="form-floating mb-3">
         <input type="text" id="name" class="form-control" placeholder="Name"
         formControlName="name"

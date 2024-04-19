@@ -8,7 +8,7 @@
         <button class="btn btn-primary w-50 p-3" (click)="showRegisterUser = false; showRegisterCompany = true">Company</button>
     </div>
     <div class="form">
-        <p class="alert alert-warning">All fields marked with * are mandatory</p>
+        <p class="alert alert-warning text-center p-1 mb-0">All fields marked with * are mandatory</p>
         <app-register-user *ngIf="showRegisterUser"></app-register-user>
         <app-register-company *ngIf="showRegisterCompany"></app-register-company>
     </div>

@@ -1,9 +1,9 @@
 
 <form id="register-user-form" [formGroup]="registerUserForm" (ngSubmit)="onSubmit()">
-    <div class="alert alert-danger" *ngIf="errorMessage">
+    <div class="alert alert-danger text-center" *ngIf="errorMessage">
         {{errorMessage}}
     </div>
-    <div class="alert alert-success" *ngIf="successMessage">
+    <div class="alert alert-success text-center" *ngIf="successMessage">
         {{successMessage}}
     </div>
 

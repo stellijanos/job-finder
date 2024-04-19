@@ -22,7 +22,7 @@ class AuthController extends Controller
             'firstname' => ['required','max:128'],
             'middlename' => ['max:128'],
             'lastname' => ['required','max:128'],
-            'email' => ['required','email','unique:users'],
+            'email' => ['required','email'],
             'password' => ['required', ], // Password::min(8)->mixedCase()->numbers()->symbols()
             'confirmPassword' => ['required', 'same:password']
         ]);
@@ -66,7 +66,7 @@ class AuthController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => ['required','max:128'],
             'website' => ['required','max:128'],
-            'email' => ['required','email','unique:users'],
+            'email' => ['required','email'],
             'password' => ['required', ], // Password::min(8)->mixedCase()->numbers()->symbols()
             'confirmPassword' => ['required', 'same:password']
         ]);
