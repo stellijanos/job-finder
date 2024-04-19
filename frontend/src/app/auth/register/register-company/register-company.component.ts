@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 export class RegisterCompanyComponent {
   registerCompanyForm: FormGroup = new FormGroup({});
 
+  showSpinner: boolean = false;
+
   
   constructor(private formBuilder: FormBuilder) {}
 

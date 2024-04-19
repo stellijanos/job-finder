@@ -30,19 +30,19 @@ export class AuthService {
 
 
   registerUser(user: RegisterUser): Observable<Response> {
-    return this.http.post<Response>(`${this.apiUrl}/register-user`, user, this.httpOptions);
+    return this.http.post<Response>(`${this.apiUrl}/auth/register-user`, user, this.httpOptions);
   }
 
   registerCompany(company: RegisterCompany): Observable<Response> {
-    return this.http.post<Response>(`${this.apiUrl}/register-company`, company, this.httpOptions);
+    return this.http.post<Response>(`${this.apiUrl}/auth/register-company`, company, this.httpOptions);
   }
 
   login(credentials: LoginCredentials): Observable<Response> {
-    return this.http.post<Response>(`${this.apiUrl}/login`, credentials, this.httpOptions);
+    return this.http.post<Response>(`${this.apiUrl}/auth/login`, credentials, this.httpOptions);
   }
 
   isLoggedIn(token: string) : Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/isLoggedIn/${token}`, null, this.httpOptions);
+    return this.http.post<boolean>(`${this.apiUrl}/auth/isLoggedIn/${token}`, null, this.httpOptions);
   }
 
 

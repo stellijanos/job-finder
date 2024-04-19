@@ -13,6 +13,7 @@ import { RegisterUser } from '../../../models/register-user.model';
 export class RegisterUserComponent {
 
   registerUserForm: FormGroup = new FormGroup({});
+  showSpinner : boolean = false;
 
   
   constructor(private formBuilder: FormBuilder) {}

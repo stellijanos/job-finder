@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { Response } from '../../models/response.model';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,13 @@ export class LoginComponent implements OnInit {
 
   loginForm : FormGroup = new FormGroup({});
 
+  errorMessage: string = '';
+  successMessage: string = '';
+  showSpinner: boolean = false;
+
   constructor(private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -29,12 +35,33 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+
+    this.showSpinner = true;
     if (this.loginForm.valid) {
       let data: LoginCredentials = this.loginForm.value;
       this.authService.login(data).subscribe(res => {
         let response: Response = res;
 
+
+        if (response.response !== "ok") {
+          this.errorMessage = response.response;
+        } else {
+          this.errorMessage = '';
+          this.successMessage = "Login successful!";
+
+          if (response.is_user) {
+            this.router.navigate(['/user']);
+          } else if (response.is_company) {
+            this.router.navigate(['/company'])
+          } else {
+            this.successMessage = '';
+            this.errorMessage = 'Something went wrong, please try again!';
+          }
+        }
+
         console.log(response);
+
+        this.showSpinner = false;
       });
 
     }
