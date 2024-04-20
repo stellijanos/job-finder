@@ -57,7 +57,7 @@ export class RegisterCompanyComponent {
           this.router.navigate(['/login']);
         }
         this.showSpinner = false;
-    })
+    });
 
 
     // console.log(registerCompany);

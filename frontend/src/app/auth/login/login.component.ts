@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { Response } from '../../models/response.model';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HomeComponent } from '../../home/home.component';
 
 @Component({
@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ){}
 
   ngOnInit(): void {
@@ -63,16 +64,22 @@ export class LoginComponent implements OnInit {
       this.authService.login(data).subscribe( (response: Response) => {
 
         if (response.response !== "ok") {
+
           this.errorMessage = response.response;
-          this.loginForm.get('password')?.patchValue('');
+          this.loginForm.reset();
+
         } else {
           this.errorMessage = '';
           this.successMessage = "Login successful!";
 
           if (response.is_user) {
+            localStorage.setItem('token', response.token);
             this.router.navigate(['/user']);
+
           } else if (response.is_company) {
+            localStorage.setItem('token', response.token);
             this.router.navigate(['/company']);
+
           } else {
             this.successMessage = '';
             this.errorMessage = 'Something went wrong, please try again!';

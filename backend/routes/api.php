@@ -29,6 +29,7 @@ Route::middleware([CorsMiddleware::class])->group(function() {
         Route::post('/register-company', [AuthController::class,'registerCompany']);
         Route::post('/login', [AuthController::class,'login']);
         Route::post('/logout/{token}',[AuthController::class, 'logout']);
+        Route::post('/is-logged-in/{token}',[AuthController::class, 'isLoggedIn']);
     });
 
     Route::prefix('user')->group(function() {

@@ -7,6 +7,7 @@ import { RegisterCompany } from '../models/register-company';
 import { Response } from '../models/response.model';
 import { LoginCredentials } from '../models/login-credentials';
 import { RegisterResponse } from '../models/register-response';
+import { LoggedInResponse } from '../models/loggedIn-response';
 
 @Injectable({
   providedIn: 'root'
@@ -42,9 +43,8 @@ export class AuthService {
     return this.http.post<Response>(`${this.apiUrl}/auth/login`, credentials, this.httpOptions);
   }
 
-  isLoggedIn(token: string) : Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/auth/isLoggedIn/${token}`, null, this.httpOptions);
+  isLoggedIn(token: string) : Observable<LoggedInResponse> {
+    return this.http.post<LoggedInResponse>(`${this.apiUrl}/auth/is-logged-in/${token}`, null, this.httpOptions);
   }
-
 
 }

@@ -1,0 +1,20 @@
+
+
+#unauthorized {
+    height:100vh;
+    background-color: #1a202c;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select:none;
+}
+
+#num {
+    font-size:100px;
+}
+
+p {
+    padding:0;
+    margin:0;
+}

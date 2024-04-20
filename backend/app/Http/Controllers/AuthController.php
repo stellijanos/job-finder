@@ -185,40 +185,45 @@ class AuthController extends Controller
 
 
 
-    public function isLoggedInCompany($token) {
-        $company = Company::where('token', $token)->first();
-
-        if (!$company) {
-            return response()->json(false);
-        }
-
-        if (Carbon::now()->gt(Carbon::parse($company->token_expires_at))) {
-            return response()->json(false);
-        }
-
-        $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
-        $company->save();
-        return response()->json(true);
-    }
+ 
 
 
-    public function isLoggedIn($token) {
-
-        $user = User::where('token', $token)->first();
-
-        if (!$user) {
-            return response()->json(false);
-        }
+    private function isLoggedInUser($user, $token) {
 
         if (Carbon::now()->gt(Carbon::parse($user->token_expires_at))) {
-            return response()->json(false);
+            return response()->json(['is_logged_in' => false]);
         }
 
         $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
         $user->save();
-        return response()->json(true);
+        return response()->json(['is_logged_in' => true, 'is_user' => true]);
 
     }
+
+    private function isLoggedInCompany($company, $token) {
+
+        if (Carbon::now()->gt(Carbon::parse($company->token_expires_at))) {
+            return response()->json(['is_logged_in' => false]);
+        }
+
+        $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
+        $company->save();
+        return response()->json(['is_logged_in' => true, 'is_company' => true]);
+    }
+
+
+    public function isLoggedIn($token) {
+        $user = User::where('token', $token)->first();
+        if ($user) {
+            return $this->isLoggedInUser($user, $token);  
+        }
+        $company = Company::where('email', $token)->first();
+        if ($company) {
+            return $this->isLoggedInCompany($company, $token);
+        }
+        return response()->json(['response' => 'Incorrect email!']);
+    }
+
 
 }
 
