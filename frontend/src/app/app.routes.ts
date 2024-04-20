@@ -8,11 +8,14 @@ import { canActivateUser } from './guards/user.guard';
 import { canActivateCompany } from './guards/company.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { LogoutComponent } from './auth/logout/logout.component';
+import { canActivateAuthRoutes } from './guards/auth-service.guard';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
-    {path: 'login', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
+    {path: 'register', component: RegisterComponent, canActivate: [canActivateAuthRoutes]},
+    {path: 'login', component: LoginComponent, canActivate: [canActivateAuthRoutes]},
+    {path: 'logout', component: LogoutComponent},
     {path: 'company', component: CompanyComponent, canActivate: [canActivateCompany]},
     {path: 'user', component: UserComponent, canActivate: [canActivateUser]},
     {path: 'unauthorized', component: UnauthorizedComponent},

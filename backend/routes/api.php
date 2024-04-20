@@ -25,11 +25,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware([CorsMiddleware::class])->group(function() {
 
     Route::prefix('auth')->group(function() {
+        
         Route::post('/register-user', [AuthController::class,'registerUser']);
         Route::post('/register-company', [AuthController::class,'registerCompany']);
         Route::post('/login', [AuthController::class,'login']);
-        Route::post('/logout/{token}',[AuthController::class, 'logout']);
-        Route::post('/is-logged-in/{token}',[AuthController::class, 'isLoggedIn']);
+
+        Route::get('/logout/{token}',[AuthController::class, 'logout']);
+        Route::get('/is-logged-in/{token}',[AuthController::class, 'isLoggedIn']);
     });
 
     Route::prefix('user')->group(function() {

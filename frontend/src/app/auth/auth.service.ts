@@ -44,7 +44,11 @@ export class AuthService {
   }
 
   isLoggedIn(token: string) : Observable<LoggedInResponse> {
-    return this.http.post<LoggedInResponse>(`${this.apiUrl}/auth/is-logged-in/${token}`, null, this.httpOptions);
+    return this.http.get<LoggedInResponse>(`${this.apiUrl}/auth/is-logged-in/${token}`, this.httpOptions);
+  }
+
+  logout(token: string) : Observable<Response> {
+    return this.http.get<Response>(`${this.apiUrl}/auth/logout/${token}`, this.httpOptions);
   }
 
 }
