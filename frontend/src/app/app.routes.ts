@@ -1,9 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { HomeComponent } from './home/home.component';
 import { CompanyComponent } from './company/company.component';
-import { UserComponent } from './user/user.component';
 import { canActivateUser } from './guards/user.guard';
 import { canActivateCompany } from './guards/company.guard';
 import { NotFoundComponent } from './informational/not-found/not-found.component';
@@ -16,6 +14,7 @@ import { ChangePasswordComponent } from './user/options/change-password/change-p
 import { DeleteAccountComponent } from './user/options/delete-account/delete-account.component';
 import { JobApplicationsComponent } from './user/options/job-applications/job-applications.component';
 import { SavedJobsComponent } from './user/options/saved-jobs/saved-jobs.component';
+import { UserHomeComponent } from './user/options/user-home/user-home.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -23,7 +22,8 @@ export const routes: Routes = [
     {path: 'login', component: LoginComponent, canActivate: [canActivateAuthRoutes]},
     {path: 'logout', component: LogoutComponent},
     {path: 'company', component: CompanyComponent, canActivate: [canActivateCompany]},
-    {path: 'user', component: UserComponent, canActivate: [canActivateUser]},
+    
+    {path: 'user', component: UserHomeComponent, canActivate: [canActivateUser]},
     {path: 'user/account-details', component: AccountDetailsComponent, canActivate: [canActivateUser]},
     {path: 'user/change-password', component: ChangePasswordComponent, canActivate: [canActivateUser]},
     {path: 'user/delete-account', component: DeleteAccountComponent, canActivate: [canActivateUser]},
@@ -34,3 +34,4 @@ export const routes: Routes = [
     {path: 'account-deleted', component: AccountDeletedComponent},
     {path: '**', component:NotFoundComponent}
 ];
+

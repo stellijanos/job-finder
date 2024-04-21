@@ -36,9 +36,10 @@ Route::middleware([CorsMiddleware::class])->group(function() {
 
     Route::prefix('user')->group(function() {
         Route::get('/{token}', [UserController::class, 'getUser']);
+        Route::put('/{token}', [UserController::class, 'updateUser']);
     });
 
-    
+
     Route::get('/users', [UserController::class, 'getAll']);
     Route::get('/jobs', [JobController::class, 'getAll']);
     Route::get('/skills', [SkillController::class, 'getAll']);

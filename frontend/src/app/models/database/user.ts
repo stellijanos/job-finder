@@ -15,4 +15,6 @@ export class User {
     saved_jobs: Job[] | undefined;
     skills: Skill[] | undefined;
     applications: Application[] | undefined;
+
+    response: string = '';
 }

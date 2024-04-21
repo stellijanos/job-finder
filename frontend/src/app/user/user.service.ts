@@ -26,7 +26,7 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/user/${token}`, this.httpOptions);
   }
 
-  update(token: string, user: User, ): Observable<User> {
+  update(token: string, user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/user/${token}`, user ,this.httpOptions);
   }
 
