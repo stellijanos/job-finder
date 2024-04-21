@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RegisterCompany } from '../../../models/register-company';
+import { RegisterCompany } from '../../../models/auth/register-company';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth.service';
-import { RegisterResponse } from '../../../models/register-response';
+import { RegisterResponse } from '../../../models/auth/register-response';
 import { Router } from '@angular/router';
 
 @Component({

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginCredentials } from '../../models/login-credentials';
+import { LoginCredentials } from '../../models/auth/login-credentials';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
-import { Response } from '../../models/response.model';
+import { Response } from '../../models/auth/response';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeComponent } from '../../home/home.component';

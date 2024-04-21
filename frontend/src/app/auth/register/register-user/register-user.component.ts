@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RegisterUser } from '../../../models/register-user'; 
+import { RegisterUser } from '../../../models/auth/register-user'; 
 import { AuthService } from '../../auth.service';
-import { Response } from '../../../models/response.model';
-import { RegisterResponse } from '../../../models/register-response';
+import { Response } from '../../../models/auth/response';
+import { RegisterResponse } from '../../../models/auth/register-response';
 import { Router } from '@angular/router';
 
 @Component({

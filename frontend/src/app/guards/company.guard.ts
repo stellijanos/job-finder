@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
 import { Observable, map, of } from "rxjs";
-import { LoggedInResponse } from "../models/loggedIn-response";
+import { LoggedInResponse } from "../models/auth/loggedIn-response";
 
 
 @Injectable({
