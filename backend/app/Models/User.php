@@ -33,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'token',
+        'token_expires_at'
     ];
 
     /**

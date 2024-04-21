@@ -1,7 +1,7 @@
 import { Job } from "./job";
 
-export interface Category {
-    id: number,
-    name: string,
-    jobs: Job[]
+export class Category {
+    id: number = 0;
+    name: string = '';
+    jobs: Job[] | undefined = []
 }

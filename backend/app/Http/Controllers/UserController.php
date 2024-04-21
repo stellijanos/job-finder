@@ -17,21 +17,21 @@ class UserController extends Controller
 
 
 
-    public function getUser($token): Response {
+    public function getUser($token) {
    
         $user = User::where('token', $token)->first();
 
         if (!$user) {
-            return response()->json(['response' => 'No user was found!']);
+            return response()->json([]);
         }
 
         if (Carbon::now()->gt(Carbon::parse($user->token_expires_at))) {
-            return response()->json(['response' => 'Invalid token!']);
+            return response()->json([]);
         }
 
         $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
         $user->save();
-        return response()->json(['response' => 'ok', 'user' => $user]);
+        return response()->json($user);
 
     }
 }

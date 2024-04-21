@@ -1,9 +1,9 @@
 import { Job } from "./job";
 
-export interface Company {
-    id: number, 
-    name: string,
-    email: string, 
-    website: string,
-    jobs: Job[]
+export class Company {
+    id: number = 0;
+    name: string = '';
+    email: string = '';
+    website: string = '';
+    jobs: Job[] | undefined = []
 }

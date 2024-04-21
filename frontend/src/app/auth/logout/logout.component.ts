@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { Response } from '../../models/auth/response';
 
 @Component({
   selector: 'app-logout',
@@ -16,7 +17,17 @@ export class LogoutComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    // this.authService.
-  }
+    let token: string = localStorage.getItem('token') ?? '';
+    if (!token) {
+      this.router.navigate(['/login']);   
+      return; 
+    }
 
+    this.authService.logout(token).subscribe((response: Response) => {
+      if (response.response === 'ok') {
+        localStorage.removeItem('token');
+      }
+      this.router.navigate(['/login']);
+    });
+  }
 }

@@ -15,3 +15,16 @@
     <hr>
     <li>Delete Account</li>
 </ul>
+
+
+<div *ngIf="showNotFound">
+  User was not found!
+</div>
+
+<div *ngIf="showUser">
+  <li>User: {{user.id}}</li>
+  <li>Firstname: {{user.firstname}}</li>
+  <li>Lastname: {{user.lastname}}</li>
+  <li>Email: {{user.email}}</li>
+</div>
+

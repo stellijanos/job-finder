@@ -3,14 +3,14 @@ import { Category } from "./category"
 import { Company } from "./company"
 import { Skill } from "./skill"
 
-export interface Job {
-    id: number, 
-    title: string, 
-    description: string, 
-    salary: number, 
-    location: string 
-    company: Company,
-    category: Category,
-    skills: Skill[],
-    applications: Application[]
+export class Job {
+    id: number = 0;
+    title: string = '';
+    description: string = ''; 
+    salary: number = 0;
+    location: string = '';
+    company: Company | undefined; 
+    category: Category | undefined;
+    skills: Skill[] | undefined;
+    applications: Application[] | undefined;
 }

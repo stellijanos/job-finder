@@ -11,8 +11,6 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  private token = localStorage.getItem('token') ?? '';
-
   private apiUrl = environment.apiUrl;
 
   private httpOptions = {
@@ -22,8 +20,8 @@ export class UserService {
   }
 
 
-  getUser(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/user/${this.token}`, this.httpOptions);
+  getUser(token: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/user/${token}`, this.httpOptions);
   }
 
   

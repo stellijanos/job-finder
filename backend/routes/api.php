@@ -35,7 +35,7 @@ Route::middleware([CorsMiddleware::class])->group(function() {
     });
 
     Route::prefix('user')->group(function() {
-        Route::post('/{token}', [UserController::class, 'getUser']);
+        Route::get('/{token}', [UserController::class, 'getUser']);
     });
 
     
