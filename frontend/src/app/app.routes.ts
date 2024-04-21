@@ -11,6 +11,11 @@ import { UnauthorizedComponent } from './informational/unauthorized/unauthorized
 import { LogoutComponent } from './auth/logout/logout.component';
 import { canActivateAuthRoutes } from './guards/auth-service.guard';
 import { AccountDeletedComponent } from './informational/account-deleted/account-deleted.component';
+import { AccountDetailsComponent } from './user/options/account-details/account-details.component';
+import { ChangePasswordComponent } from './user/options/change-password/change-password.component';
+import { DeleteAccountComponent } from './user/options/delete-account/delete-account.component';
+import { JobApplicationsComponent } from './user/options/job-applications/job-applications.component';
+import { SavedJobsComponent } from './user/options/saved-jobs/saved-jobs.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -19,6 +24,12 @@ export const routes: Routes = [
     {path: 'logout', component: LogoutComponent},
     {path: 'company', component: CompanyComponent, canActivate: [canActivateCompany]},
     {path: 'user', component: UserComponent, canActivate: [canActivateUser]},
+    {path: 'user/account-details', component: AccountDetailsComponent, canActivate: [canActivateUser]},
+    {path: 'user/change-password', component: ChangePasswordComponent, canActivate: [canActivateUser]},
+    {path: 'user/delete-account', component: DeleteAccountComponent, canActivate: [canActivateUser]},
+    {path: 'user/job-applications', component: JobApplicationsComponent, canActivate: [canActivateUser]},
+    {path: 'user/saved-jobs', component: SavedJobsComponent, canActivate: [canActivateUser]},
+    
     {path: 'unauthorized', component: UnauthorizedComponent},
     {path: 'account-deleted', component: AccountDeletedComponent},
     {path: '**', component:NotFoundComponent}

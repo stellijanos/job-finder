@@ -7,10 +7,10 @@
 
 
 <ul>
-    <li>Account Settings</li>
-    <li>Change Paassword</li>
-    <li>Application Statuses</li>
-    <li>Saved Jobs</li>
+    <li [routerLink]="['/user/account-details']">Account details</li>
+    <li [routerLink]="['/user/change-password']">Change Password</li>
+    <li [routerLink]="['/user/job-applications']">Job Applications</li>
+    <li [routerLink]="['/user/saved-jobs']">Saved Jobs</li>
     <li [routerLink]="['/logout']">Logout</li>
     <hr>
     <li>Delete Account</li>
