@@ -1,0 +1,30 @@
+
+
+<app-sidebar></app-sidebar>
+
+
+
+<div id="user" class="content">
+
+    <div id="content">
+      <div id="details" *ngIf="showUser">
+        <div >
+          <li>User: {{user.id}}</li>
+          <li>Firstname: {{user.firstname}}</li>
+          <li>Lastname: {{user.lastname}}</li>
+          <li>Email: {{user.email}}</li>
+        </div>
+      </div>
+  
+      <div *ngIf="showNotFound">
+        User was not found!
+      </div>
+    </div>
+
+</div>
+
+<div class="d-flex justify-content-center align-items-center overlay" *ngIf="showSpinner">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

@@ -9,7 +9,12 @@ export class User {
     middlename: string = '';
     lastname: string = '';
     email: string = '';
+    password: string = '';
+    new_password: string = '';
+    confirm_new_password: string = '';
     saved_jobs: Job[] | undefined;
     skills: Skill[] | undefined;
     applications: Application[] | undefined;
+
+    response: string = '';
 }
