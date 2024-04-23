@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
@@ -43,6 +44,7 @@ Route::middleware([CorsMiddleware::class])->group(function() {
     Route::get('/users', [UserController::class, 'getAll']);
     Route::get('/jobs', [JobController::class, 'getAll']);
     Route::get('/skills', [SkillController::class, 'getAll']);
+    Route::get('/companies', [CompanyController::class, 'getAll']);
 
 
     Route::fallback(function () {
