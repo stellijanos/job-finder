@@ -1,1 +1,31 @@
-<p>delete-account works!</p>
+
+<app-sidebar></app-sidebar>
+
+<div class="content text-center" *ngIf="showContent">
+    <form id="delete-form" [formGroup]="deleteAccountForm">
+        <h1>Are you sure you want to delete your account?</h1>
+        <p>(This action CANNOT be undone)</p>
+        <div class="alert alert-danger d-flex flex-row justify-content-space-between align-items-center" *ngIf="errorMessage">
+            {{errorMessage}}
+            <button type="button" class="btn-close me-2 m-auto" (click)="errorMessage = ''" aria-label="Close"></button>
+        </div>
+        <mat-form-field class="full-width mb-1 w-100">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" autocomplete="current-password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            @if(deleteAccountForm.get('password')?.invalid && deleteAccountForm.get('password')?.touched){
+                <mat-error>Please enter password!</mat-error>
+            }
+        </mat-form-field>
+        <button mat-flat-button color="warn" class="full-width w-100" (click)="deleteAccount()" [disabled]="deleteAccountForm.invalid">DELETE ACCOUNT</button>
+    </form>
+</div>
+
+<div class="d-flex justify-content-center align-items-center overlay" *ngIf="showSpinner">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+

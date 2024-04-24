@@ -21,13 +21,12 @@ export class UserHomeComponent {
 
   user: User = new User();
 
-  private token: string = localStorage.getItem('token') ?? '';
 
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
 
-    this.userService.getUser(this.token).subscribe((user: User) => {
+    this.userService.getByToken().subscribe((user: User) => {
 
       if (!user.id) {
         this.showNotFound = true;
@@ -41,12 +40,5 @@ export class UserHomeComponent {
   }
 
 
-  delete() {
-    this.userService.delete(this.token, this.user.password).subscribe((response: Response) => {
-      if (response.response === "ok") {
-        this.router.navigate(['/account-deleted']);
-      }
-    })
-  }
 
 }
