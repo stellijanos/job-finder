@@ -45,8 +45,6 @@ export class AccountDetailsComponent implements OnInit {
 
   hide = true;
 
-  private token: string = localStorage.getItem('token') ?? '';
-
   constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) {}
 
 
@@ -60,7 +58,7 @@ export class AccountDetailsComponent implements OnInit {
       password: ['', [Validators.required]]
     });
 
-    this.userService.getUser(this.token).subscribe((user: User) => {
+    this.userService.getByToken().subscribe((user: User) => {
 
       if (!user.id) {
         this.showNotFound = true;
@@ -85,7 +83,7 @@ export class AccountDetailsComponent implements OnInit {
 
     let user: User = this.editUserForm.value;
     console.log(user);
-    this.userService.update(this.token, user).subscribe((user: User) => {
+    this.userService.updateByToken(user).subscribe((user: User) => {
       console.log(user);
 
       if (!user.id) {

@@ -11,37 +11,51 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function getAll() {
-        return response()->json(User::with('saved_jobs', 'skills', 'applications')->get());
+    public function getAllWithSkills() {
+        return response()->json(User::with('skills')->get());
     }
 
 
-
-
-
-    public function getUser($token) {
-   
-        $user = User::where('token', $token)->first();
+    public function getById($id) {
+        $user = User::with('skills')->find($id);
 
         if (!$user) {
-            return response()->json([]);
+            return response()->json(['response' => 'No user found!'], 404);
+        }
+
+
+        $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
+        $user->save();
+        return response()->json($user);
+    } 
+
+
+
+
+    public function getByToken($token) {
+   
+        $user = User::with('skills', 'applications', 'saved_jobs')->where('token', $token)->first();
+
+        if (!$user) {
+            return response()->json(['response' => 'No user found!'], 404);
         }
 
         if (Carbon::now()->gt(Carbon::parse($user->token_expires_at))) {
-            return response()->json([]);
+            return response()->json(['response' => 'Invalid token!']);
         }
 
         $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
         $user->save();
         return response()->json($user);
-
     }
 
-    public function updateUser($token) {
+ 
+
+    public function updateByToken($token) {
         $user = User::where('token', $token)->first();
 
         if (!$user) {
-            return response()->json(['response' => 'User not found!']);
+            return response()->json(['response' => 'User not found!'], 404);
         }
 
         if (!Hash::check(request()->get('password'), $user->password)) {
@@ -77,41 +91,20 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+
+    public function deleteByToken($token, $password) {
+        $user = User::where('token', $token)->first();
+
+        if (!$user) {
+            return response()->json(['response' => 'User not found!'], 404);
+        }
+
+        if (!Hash::check($password, $user->password)) {
+            return response()->json(['response' => 'Incorrect password!']);
+        }
+
+        $user->delete();
+        return response()->json(['response' => 'ok']);
+    }
+
 }
-
-
-
-// private function isLoggedInCompany($token) {
-//     $company = Company::where('token', $token)->first();
-
-//     if (!$company) {
-//         return response()->json(false);
-//     }
-
-//     if (Carbon::now()->gt(Carbon::parse($company->token_expires_at))) {
-//         return response()->json(false);
-//     }
-
-//     $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
-//     $company->save();
-//     return response()->json(true);
-// }
-
-
-// public function isLoggedIn($token) {
-
-//     $user = User::where('token', $token)->first();
-
-//     if (!$user) {
-//         return $this->isLoggedInCompany($token);
-//     }
-
-//     if (Carbon::now()->gt(Carbon::parse($user->token_expires_at))) {
-//         return response()->json(false);
-//     }
-
-//     $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
-//     $user->save();
-//     return response()->json(true);
-
-// }

@@ -35,20 +35,24 @@ Route::middleware([CorsMiddleware::class])->group(function() {
         Route::get('/is-logged-in/{token}',[AuthController::class, 'isLoggedIn']);
     });
 
+
+    Route::get('/users', [UserController::class, 'getAllWithSkills']);
     Route::prefix('user')->group(function() {
-        Route::get('/{token}', [UserController::class, 'getUser']);
-        Route::put('/{token}', [UserController::class, 'updateUser']);
+
+        Route::get('/id/{id}', [UserController::class, 'getById']);
+
+        Route::get('/token/{token}', [UserController::class, 'getByToken']);
+        Route::put('/token/{token}', [UserController::class, 'updateByToken']);
+        Route::patch('/token/{token}/{password}', [UserController::class, 'deleteByToken']);
+        
     });
 
 
-    Route::get('/users', [UserController::class, 'getAll']);
+    
     Route::get('/jobs', [JobController::class, 'getAll']);
     Route::get('/skills', [SkillController::class, 'getAll']);
     Route::get('/companies', [CompanyController::class, 'getAll']);
 
+    Route::any('{any}', fn() => response()->json(['response' => 'Bad request'], 400))->where('any', '.*');
 
-    Route::fallback(function () {
-        return response()->json(['response' => 'Not Found'], 404);
-    });
 });
-

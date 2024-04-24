@@ -10,17 +10,19 @@
 
 }
 
-
-#edit-user-form {
-    width:500px;
-}
-
 .content {
     margin-left:250px;
     display:flex;
     align-items:center;
     justify-content: center;
 }
+
+
+#edit-user-form {
+    width:500px;
+}
+
+
 
 
 .full-width {

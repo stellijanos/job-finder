@@ -18,20 +18,21 @@ import { UserHomeComponent } from './user/options/user-home/user-home.component'
 
 export const routes: Routes = [
     {path: '', redirectTo: 'login', pathMatch: 'full'},
-    {path: 'register', component: RegisterComponent, canActivate: [canActivateAuthRoutes]},
-    {path: 'login', component: LoginComponent, canActivate: [canActivateAuthRoutes]},
-    {path: 'logout', component: LogoutComponent},
-    {path: 'company', component: CompanyComponent, canActivate: [canActivateCompany]},
+    {path: 'register', component: RegisterComponent, canActivate: [canActivateAuthRoutes], title: 'Register | JobFinder'},
+    {path: 'login', component: LoginComponent, canActivate: [canActivateAuthRoutes], title: 'Login | JobFinder'},
+    {path: 'logout', component: LogoutComponent, title:'Logout - JobFinder'},
+    {path: 'company', component: CompanyComponent, canActivate: [canActivateCompany], title:'Home - Company | JobFinder'},
     
-    {path: 'user', component: UserHomeComponent, canActivate: [canActivateUser]},
-    {path: 'user/account-details', component: AccountDetailsComponent, canActivate: [canActivateUser]},
-    {path: 'user/change-password', component: ChangePasswordComponent, canActivate: [canActivateUser]},
-    {path: 'user/delete-account', component: DeleteAccountComponent, canActivate: [canActivateUser]},
-    {path: 'user/job-applications', component: JobApplicationsComponent, canActivate: [canActivateUser]},
-    {path: 'user/saved-jobs', component: SavedJobsComponent, canActivate: [canActivateUser]},
-    
-    {path: 'unauthorized', component: UnauthorizedComponent},
-    {path: 'account-deleted', component: AccountDeletedComponent},
-    {path: '**', component:NotFoundComponent}
+    {path: 'user', component: UserHomeComponent, canActivate: [canActivateUser], title: 'Home - User | Jobfinder'},
+    {path: 'user/account-details', component: AccountDetailsComponent, canActivate: [canActivateUser], title:'Account details'},
+    {path: 'user/change-password', component: ChangePasswordComponent, canActivate: [canActivateUser], title: 'Change Password'},
+    {path: 'user/delete-account', component: DeleteAccountComponent, canActivate: [canActivateUser], title: 'Delete Account'},
+    {path: 'user/job-applications', component: JobApplicationsComponent, canActivate: [canActivateUser], title: 'Job Applications'},
+    {path: 'user/saved-jobs', component: SavedJobsComponent, canActivate: [canActivateUser], title: 'Saved Jobs'},
+
+    {path: 'account-deleted', component: AccountDeletedComponent, title: 'Account deleted'},
+
+    {path: 'unauthorized', component: UnauthorizedComponent, title: 'Unauthorized'},
+    {path: '**', component:NotFoundComponent, title: '404 - Not Found'}
 ];
 

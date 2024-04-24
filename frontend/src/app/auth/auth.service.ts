@@ -15,9 +15,7 @@ import { LoggedInResponse } from '../models/auth/loggedIn-response';
 export class AuthService {
 
 
-  apiUrl = environment.apiUrl;
-
-
+  apiUrl = environment.apiUrl + '/auth';
 
   
   private httpOptions = {
@@ -27,28 +25,27 @@ export class AuthService {
   };
 
 
-
   constructor(private http: HttpClient) { }
 
 
   registerUser(user: RegisterUser): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.apiUrl}/auth/register-user`, user, this.httpOptions);
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register-user`, user, this.httpOptions);
   }
 
   registerCompany(company: RegisterCompany): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.apiUrl}/auth/register-company`, company, this.httpOptions);
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register-company`, company, this.httpOptions);
   }
 
   login(credentials: LoginCredentials): Observable<Response> {
-    return this.http.post<Response>(`${this.apiUrl}/auth/login`, credentials, this.httpOptions);
+    return this.http.post<Response>(`${this.apiUrl}/login`, credentials, this.httpOptions);
   }
 
   isLoggedIn(token: string) : Observable<LoggedInResponse> {
-    return this.http.get<LoggedInResponse>(`${this.apiUrl}/auth/is-logged-in/${token}`, this.httpOptions);
+    return this.http.get<LoggedInResponse>(`${this.apiUrl}/is-logged-in/${token}`, this.httpOptions);
   }
 
   logout(token: string) : Observable<Response> {
-    return this.http.get<Response>(`${this.apiUrl}/auth/logout/${token}`, this.httpOptions);
+    return this.http.get<Response>(`${this.apiUrl}/logout/${token}`, this.httpOptions);
   }
 
 }

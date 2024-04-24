@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { User } from '../models/database/user';
 import { environment } from '../../environments/environment';
 import { Response } from '../models/auth/response';
@@ -10,10 +10,14 @@ import { Response } from '../models/auth/response';
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
 
+  private apiUrl = environment.apiUrl + '/user';
 
-  private apiUrl = environment.apiUrl;
+  private token: string = 'no';
+
+  constructor(private http: HttpClient) { 
+    this.loadToken();
+  }
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -21,17 +25,39 @@ export class UserService {
     })
   }
 
-
-  getUser(token: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/user/${token}`, this.httpOptions);
+  loadToken(): void {
+    while(this.token === "no") 
+      this.token = localStorage.getItem('token') ?? '';
   }
 
-  update(token: string, user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/user/${token}`, user ,this.httpOptions);
+  clearToken(): void {
+    localStorage.removeItem('token');
+    this.token = 'no';
   }
 
-  delete(token: string, password: string, ): Observable<Response> {
-    return this.http.delete<Response>(`${this.apiUrl}/user/${token}/${password}`, this.httpOptions);
+
+  getAllWithSkills() : Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}s`, this.httpOptions);
   }
+
+  getById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/id/${id}`, this.httpOptions);
+  }
+
+  getByToken(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/token/${this.token}`, this.httpOptions);
+  }
+
+  updateByToken(user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/token/${this.token}`, user ,this.httpOptions);
+  }
+
+  deleteByToken(password: string): Observable<Response> {
+    return this.http.patch<Response>(`${this.apiUrl}/token/${this.token}/${password}`, this.httpOptions);
+  }
+
+  
+
+
 
 }

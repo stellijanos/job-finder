@@ -7,8 +7,14 @@
     
     <form [formGroup]="editUserForm" id="edit-user-form">
         <p class="fs-3 text-center mb-3">Account details</p>
-        <div class="alert alert-danger text-center" *ngIf="errorMessage">{{errorMessage}}</div>
-        <div class="alert alert-success text-center" *ngIf="successMessage">{{successMessage}}</div>
+        <div class="alert alert-danger d-flex flex-row justify-content-space-between align-items-center" *ngIf="errorMessage">
+            {{errorMessage}}
+            <button type="button" class="btn-close me-2 m-auto" (click)="errorMessage = ''" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-success d-flex flex-row justify-content-space-between align-items-center" *ngIf="successMessage">
+            {{successMessage}}
+            <button type="button" class="btn-close me-2 m-auto" (click)="successMessage = ''" aria-label="Close"></button>
+        </div>
         <mat-form-field class="full-width mb-1">
             <mat-label>Firstname</mat-label>
             <input type="text" id="firsntame" placeholder="Firstname" formControlName="firstname" matInput >
@@ -50,7 +56,7 @@
             }
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="full-width" (click)="saveChanges()" [disabled]="editUserForm.invalid">Save changes</button>
+        <button mat-flat-button color="primary" class="full-width" (click)="saveChanges()" [disabled]="editUserForm.invalid">Update details</button>
     </form>
 </div>
 
