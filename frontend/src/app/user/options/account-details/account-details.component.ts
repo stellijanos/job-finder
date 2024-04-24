@@ -118,5 +118,5 @@ export class AccountDetailsComponent implements OnInit {
     this.showContent = !this.showContent;
   }
 
-
 }
+
