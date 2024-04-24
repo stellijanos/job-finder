@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Response } from '../../models/auth/response';
+import { TokenService } from '../../token/token.service';
 
 @Component({
   selector: 'app-logout',
@@ -14,18 +15,12 @@ import { Response } from '../../models/auth/response';
 export class LogoutComponent implements OnInit {
   showSpinner: boolean = true;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private tokenService: TokenService) {}
 
   ngOnInit() {
-    let token: string = localStorage.getItem('token') ?? '';
-    if (!token) {
-      this.router.navigate(['/login']);   
-      return; 
-    }
-
-    this.authService.logout(token).subscribe((response: Response) => {
+    this.authService.logout().subscribe((response: Response) => {
       if (response.response === 'ok') {
-        localStorage.removeItem('token');
+        this.tokenService.clearToken();
       }
       this.router.navigate(['/login']);
     });

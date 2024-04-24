@@ -8,6 +8,7 @@ import { Response } from '../models/auth/response';
 import { LoginCredentials } from '../models/auth/login-credentials';
 import { RegisterResponse } from '../models/auth/register-response';
 import { LoggedInResponse } from '../models/auth/loggedIn-response';
+import { TokenService } from '../token/token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class AuthService {
   };
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private tokenService: TokenService) { }
 
 
   registerUser(user: RegisterUser): Observable<RegisterResponse> {
@@ -40,12 +41,12 @@ export class AuthService {
     return this.http.post<Response>(`${this.apiUrl}/login`, credentials, this.httpOptions);
   }
 
-  isLoggedIn(token: string) : Observable<LoggedInResponse> {
-    return this.http.get<LoggedInResponse>(`${this.apiUrl}/is-logged-in/${token}`, this.httpOptions);
+  isLoggedIn() : Observable<LoggedInResponse> {
+    return this.http.get<LoggedInResponse>(`${this.apiUrl}/is-logged-in/${this.tokenService.getToken()}`, this.httpOptions);
   }
 
-  logout(token: string) : Observable<Response> {
-    return this.http.get<Response>(`${this.apiUrl}/logout/${token}`, this.httpOptions);
+  logout() : Observable<Response> {
+    return this.http.get<Response>(`${this.apiUrl}/logout/${this.tokenService.getToken()}`, this.httpOptions);
   }
 
 }

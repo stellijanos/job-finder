@@ -11,13 +11,8 @@ class AuthServiceGuard {
     constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(): Observable<boolean> {
-        let token: string| null = localStorage.getItem('token')
 
-        if (!token) {
-            return of(true);
-        }
-
-        return this.authService.isLoggedIn(token).pipe(
+        return this.authService.isLoggedIn().pipe(
             map((response: LoggedInResponse) => {
                 if (!response.is_logged_in) {
                     return true;
