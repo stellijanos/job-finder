@@ -4,11 +4,12 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Response } from '../../models/auth/response';
 import { TokenService } from '../../token/token.service';
+import { SpinnerComponent } from '../../ui-components/spinner/spinner.component';
 
 @Component({
   selector: 'app-logout',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SpinnerComponent],
   templateUrl: './logout.component.html',
   styleUrl: './logout.component.css'
 })

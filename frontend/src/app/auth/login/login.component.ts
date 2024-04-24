@@ -7,11 +7,19 @@ import { Response } from '../../models/auth/response';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeComponent } from '../../home/home.component';
+import { SpinnerComponent } from '../../ui-components/spinner/spinner.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, HomeComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    HttpClientModule, 
+    HomeComponent, 
+    SpinnerComponent
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

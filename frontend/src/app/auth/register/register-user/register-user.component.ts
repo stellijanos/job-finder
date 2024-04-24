@@ -6,11 +6,12 @@ import { AuthService } from '../../auth.service';
 import { Response } from '../../../models/auth/response';
 import { RegisterResponse } from '../../../models/auth/register-response';
 import { Router } from '@angular/router';
+import { SpinnerComponent } from '../../../ui-components/spinner/spinner.component';
 
 @Component({
   selector: 'app-register-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SpinnerComponent],
   templateUrl: './register-user.component.html',
   styleUrl: './register-user.component.css'
 })

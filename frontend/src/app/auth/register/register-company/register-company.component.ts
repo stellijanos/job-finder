@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth.service';
 import { RegisterResponse } from '../../../models/auth/register-response';
 import { Router } from '@angular/router';
+import { SpinnerComponent } from '../../../ui-components/spinner/spinner.component';
 
 @Component({
   selector: 'app-register-company',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SpinnerComponent],
   templateUrl: './register-company.component.html',
   styleUrl: './register-company.component.css'
 })

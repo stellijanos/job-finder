@@ -60,9 +60,6 @@
     </form>
 </div>
 
-<div class="d-flex justify-content-center align-items-center overlay" *ngIf="showSpinner">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+<div *ngIf="showSpinner">
+    <app-spinner></app-spinner>
 </div>
-

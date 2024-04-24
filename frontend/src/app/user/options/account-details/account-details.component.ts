@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { User } from '../../../models/database/user';
 import { UserService } from '../../user.service';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { SpinnerComponent } from '../../../ui-components/spinner/spinner.component';
 
 
 
@@ -25,7 +26,8 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
     MatInputModule, 
     MatFormFieldModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    SpinnerComponent
   ],
   templateUrl: './account-details.component.html',
   styleUrl: './account-details.component.css'
