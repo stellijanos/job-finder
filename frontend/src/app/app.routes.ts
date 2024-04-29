@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { CompanyComponent } from './company/company.component';
 import { canActivateUser } from './guards/user.guard';
 import { canActivateCompany } from './guards/company.guard';
 import { NotFoundComponent } from './informational/not-found/not-found.component';
@@ -15,13 +14,14 @@ import { DeleteAccountComponent } from './user/options/delete-account/delete-acc
 import { JobApplicationsComponent } from './user/options/job-applications/job-applications.component';
 import { SavedJobsComponent } from './user/options/saved-jobs/saved-jobs.component';
 import { UserHomeComponent } from './user/options/user-home/user-home.component';
+import { CompanyHomeComponent } from './company/options/company-home/company-home.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'login', pathMatch: 'full'},
     {path: 'register', component: RegisterComponent, canActivate: [canActivateAuthRoutes], title: 'Register | JobFinder'},
     {path: 'login', component: LoginComponent, canActivate: [canActivateAuthRoutes], title: 'Login | JobFinder'},
     {path: 'logout', component: LogoutComponent, title:'Logout - JobFinder'},
-    {path: 'company', component: CompanyComponent, canActivate: [canActivateCompany], title:'Home - Company | JobFinder'},
+    {path: 'company', component: CompanyHomeComponent, canActivate: [canActivateCompany], title:'Home - Company | JobFinder'},
     
     {path: 'user', component: UserHomeComponent, canActivate: [canActivateUser], title: 'Home - User | Jobfinder'},
     {path: 'user/account-details', component: AccountDetailsComponent, canActivate: [canActivateUser], title:'Account details'},

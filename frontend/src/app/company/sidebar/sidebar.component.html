@@ -1,0 +1,21 @@
+
+
+<div id="sidebar" class="bg-dark text-white" [ngClass]="{'closed': isSidebarClosed}">
+    <div class="header p-3">
+        <p class="fs-2">Options</p> <i class="bi bi-x-lg" (click)="toggleSidebar()"></i>
+    </div>
+    <hr class="text-white">
+
+    <a routerLink="/user" [ngClass]="{'current-option' : currentRoute === '/user' }">Home</a>
+    <a routerLink="/user/account-details" routerLinkActive="current-option">Account details</a>
+    <a routerLink="/user/change-password" routerLinkActive="current-option">Change Password</a>
+    <a routerLink="/user/job-applications" routerLinkActive="current-option">Job Applications</a>
+    <a routerLink="/user/saved-jobs" routerLinkActive="current-option">Saved Jobs</a>
+    <hr class="text-white">
+    <a routerLink="/logout" routerLinkActive="current-option">Logout</a>
+    <a [routerLink]="['/user/delete-account']" routerLinkActive="current-option">Delete Account</a>
+</div>
+
+<div id="show-sidebar">
+    <button (click)="toggleSidebar()">Show sidebar</button>
+</div>

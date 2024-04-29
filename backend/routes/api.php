@@ -48,15 +48,22 @@ Route::middleware([CorsMiddleware::class])->group(function() {
         
     });
 
+    Route::get('/companies', [CompanyController::class, 'getAllWithJobs']);
+    Route::prefix('company')->group(function() {
+        
+        Route::get('/id/{id}', [CompanyController::class, 'getById']);
 
+        Route::get('/token/{token}', [CompanyController::class, 'getByToken']);
+        Route::put('/token/{token}', [CompanyController::class, 'updateByToken']);
+        Route::patch('/token/{token}', [CompanyController::class, 'changePassword']);
+        Route::delete('/token/{token}/{password}', [CompanyController::class, 'deleteByToken']);
+
+    });
     
     Route::get('/jobs', [JobController::class, 'getAll']);
     Route::get('/skills', [SkillController::class, 'getAll']);
-    Route::get('/companies', [CompanyController::class, 'getAll']);
 
     Route::any('{any}', fn() => response()->json(['response' => 'Bad request'], 400))->where('any', '.*');
 
 });
-
-
 
