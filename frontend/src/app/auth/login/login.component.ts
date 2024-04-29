@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeComponent } from '../../home/home.component';
 import { SpinnerComponent } from '../../ui-components/spinner/spinner.component';
+import { TokenService } from '../../token/token.service';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private tokenService: TokenService
   ){}
 
   ngOnInit(): void {
@@ -71,6 +73,8 @@ export class LoginComponent implements OnInit {
       let data: LoginCredentials = this.loginForm.value;
       this.authService.login(data).subscribe( (response: Response) => {
 
+        console.log(response);
+
         if (response.response !== "ok") {
 
           this.errorMessage = response.response;
@@ -81,11 +85,12 @@ export class LoginComponent implements OnInit {
           this.successMessage = "Login successful!";
 
           if (response.is_user) {
-            localStorage.setItem('token', response.token);
+            this.tokenService.setToken(response.token);
             this.router.navigate(['/user']);
 
           } else if (response.is_company) {
-            localStorage.setItem('token', response.token);
+            console.log('company hehe');
+            this.tokenService.setToken(response.token);
             this.router.navigate(['/company']);
 
           } else {

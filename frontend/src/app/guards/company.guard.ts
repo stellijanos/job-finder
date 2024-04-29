@@ -15,10 +15,11 @@ class CompanyGuard {
  
         return this.authService.isLoggedIn().pipe(
             map((response: LoggedInResponse) => {
+                console.log(response);
                 if (response.is_company) {
                     return true;
                 }
-                this.router.navigate(['/unauthorized']);
+                // this.router.navigate(['/unauthorized']);
                 return false;
             })
         );

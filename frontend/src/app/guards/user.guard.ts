@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } fr
 import { Observable, map, of} from "rxjs";
 import { LoggedInResponse } from "../models/auth/loggedIn-response";
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -14,6 +15,7 @@ class UserGuard {
 
         return this.authService.isLoggedIn().pipe(
             map((response: LoggedInResponse) => {
+                console.log(response);
                 if (response.is_user) {
                     return true;
                 } 

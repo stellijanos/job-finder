@@ -217,7 +217,8 @@ class AuthController extends Controller
         if ($user) {
             return $this->isLoggedInUser($user, $token);  
         }
-        $company = Company::where('email', $token)->first();
+        
+        $company = Company::where('token', $token)->first();
         if ($company) {
             return $this->isLoggedInCompany($company, $token);
         }
