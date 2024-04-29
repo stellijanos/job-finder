@@ -8,6 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ChangePassword } from '../../../models/user/change-password';
+import { UserService } from '../../user.service';
+import { Response } from '../../../models/auth/response';
 
 @Component({
   selector: 'app-change-password',
@@ -37,14 +40,13 @@ export class ChangePasswordComponent implements OnInit {
 
   changePasswordForm: FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
     this.changePasswordForm = this.formBuilder.group({
       current: ['', [Validators.required, Validators.maxLength(128)]],
       new: ['', Validators.required],
-      confirm: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      confirm: ['', Validators.required]
     });
 
     // setTimeout(() => {
@@ -61,7 +63,42 @@ export class ChangePasswordComponent implements OnInit {
 
 
   changePassword() {
+
+    this.toggleContent();
     
+    let changePasswordJSON: ChangePassword = this.changePasswordForm.value;
+
+    this.userService.changePasswordByToken(changePasswordJSON).subscribe((response: Response) => {
+      console.log(response);
+
+      if (response.response !== "ok") {
+        this.successMessage = '';
+        this.errorMessage = response.response;
+
+      } else {
+        this.errorMessage = '';
+        this.successMessage = 'Password changed successfully!';
+      }
+
+      this.changePasswordForm.reset();
+      this.toggleContent();
+    });
+
+  }
+
+
+  invalidInput(name: string) {
+    return this.changePasswordForm.get(name)?.invalid && this.changePasswordForm.get(name)?.touched;
+  }
+
+
+  passwordsDoMatch() {
+    return this.changePasswordForm.get('new')?.value === this.changePasswordForm.get('confirm')?.value;
+  }
+
+
+  validSubmit() {
+    return this.changePasswordForm.valid && this.passwordsDoMatch();
   }
 
 

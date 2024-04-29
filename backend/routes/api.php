@@ -43,7 +43,8 @@ Route::middleware([CorsMiddleware::class])->group(function() {
 
         Route::get('/token/{token}', [UserController::class, 'getByToken']);
         Route::put('/token/{token}', [UserController::class, 'updateByToken']);
-        Route::patch('/token/{token}/{password}', [UserController::class, 'deleteByToken']);
+        Route::patch('/token/{token}', [UserController::class, 'changePassword']);
+        Route::delete('/token/{token}/{password}', [UserController::class, 'deleteByToken']);
         
     });
 
@@ -56,3 +57,6 @@ Route::middleware([CorsMiddleware::class])->group(function() {
     Route::any('{any}', fn() => response()->json(['response' => 'Bad request'], 400))->where('any', '.*');
 
 });
+
+
+

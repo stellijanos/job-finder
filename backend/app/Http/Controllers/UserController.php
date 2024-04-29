@@ -27,6 +27,8 @@ class UserController extends Controller
         $user->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();
         $user->save();
         return response()->json($user);
+
+    
     } 
 
 
@@ -90,6 +92,35 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+
+
+
+    public function changePassword($token) {
+
+        $user = User::where('token', $token)->first();
+
+        if (!$user) {
+            return response()->json(['response' => 'User not found!']);
+        }
+
+        $current = request()->get('current');
+        $new     = request()->get('new');
+        $confirm = request()->get('confirm');
+
+        if ($new !== $confirm) {
+            return response()->json(['response' => 'Passwords do not match!']);
+        }
+
+        if (!Hash::check($current, $user->password)) {
+            return response()->json(['response' => 'Incorrect password!']);
+        }
+
+        $user->password = Hash::make($new);
+        $user->save();
+
+        return response()->json(['response' => 'ok']);
+    }
+
 
 
     public function deleteByToken($token, $password) {

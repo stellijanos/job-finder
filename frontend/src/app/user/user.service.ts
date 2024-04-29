@@ -5,6 +5,7 @@ import { User } from '../models/database/user';
 import { environment } from '../../environments/environment';
 import { Response } from '../models/auth/response';
 import { TokenService } from '../token/token.service';
+import { ChangePassword } from '../models/user/change-password';
 
 @Injectable({
   providedIn: 'root'
@@ -40,8 +41,12 @@ export class UserService {
     return this.http.put<User>(`${this.apiUrl}/token/${this.tokenService.getToken()}`, user ,this.httpOptions);
   }
 
+  changePasswordByToken(changePassword: ChangePassword): Observable<Response> {
+    return this.http.patch<Response>(`${this.apiUrl}/token/${this.tokenService.getToken()}`, changePassword, this.httpOptions);
+  }
+
   deleteByToken(password: string): Observable<Response> {
-    return this.http.patch<Response>(`${this.apiUrl}/token/${this.tokenService.getToken()}/${password}`, this.httpOptions);
+    return this.http.delete<Response>(`${this.apiUrl}/token/${this.tokenService.getToken()}/${password}`, this.httpOptions);
   }
 
 
