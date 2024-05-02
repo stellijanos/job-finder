@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './delete-account.component.html',
   styleUrl: './delete-account.component.css'
 })
-export class DeleteAccountComponent {
+export class C_DeleteAccountComponent {
 
 }

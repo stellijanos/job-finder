@@ -15,13 +15,17 @@ import { JobApplicationsComponent } from './user/options/job-applications/job-ap
 import { SavedJobsComponent } from './user/options/saved-jobs/saved-jobs.component';
 import { UserHomeComponent } from './user/options/user-home/user-home.component';
 import { CompanyHomeComponent } from './company/options/company-home/company-home.component';
+import { C_AccountDetailsComponent } from './company/options/account-details/account-details.component';
+import { C_ChangePasswordComponent } from './company/options/change-password/change-password.component';
+import { C_DeleteAccountComponent } from './company/options/delete-account/delete-account.component';
+import { C_JobsComponent } from './company/options/jobs/jobs.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'login', pathMatch: 'full'},
     {path: 'register', component: RegisterComponent, canActivate: [canActivateAuthRoutes], title: 'Register | JobFinder'},
     {path: 'login', component: LoginComponent, canActivate: [canActivateAuthRoutes], title: 'Login | JobFinder'},
     {path: 'logout', component: LogoutComponent, title:'Logout - JobFinder'},
-    {path: 'company', component: CompanyHomeComponent, canActivate: [canActivateCompany], title:'Home - Company | JobFinder'},
+    
     
     {path: 'user', component: UserHomeComponent, canActivate: [canActivateUser], title: 'Home - User | Jobfinder'},
     {path: 'user/account-details', component: AccountDetailsComponent, canActivate: [canActivateUser], title:'Account details'},
@@ -30,6 +34,14 @@ export const routes: Routes = [
     {path: 'user/job-applications', component: JobApplicationsComponent, canActivate: [canActivateUser], title: 'Job Applications'},
     {path: 'user/saved-jobs', component: SavedJobsComponent, canActivate: [canActivateUser], title: 'Saved Jobs'},
 
+
+    {path: 'company', component: CompanyHomeComponent, canActivate: [canActivateCompany], title:'Home - Company | JobFinder'},
+    {path: 'company/jobs', component: C_JobsComponent, canActivate: [canActivateCompany], title: 'Jobs'},
+    {path: 'company/applications', component: C_JobsComponent, canActivate: [canActivateCompany], title: ' Applications'},
+    {path: 'commany/account-details', component: C_AccountDetailsComponent, canActivate: [canActivateCompany], title:'Account details'},
+    {path: 'company/change-password', component: C_ChangePasswordComponent, canActivate: [canActivateCompany], title: 'Change Password'},
+    {path: 'company/delete-account', component: C_DeleteAccountComponent, canActivate: [canActivateCompany], title: 'Delete Account'},
+   
     {path: 'account-deleted', component: AccountDeletedComponent, title: 'Account deleted'},
 
     {path: 'unauthorized', component: UnauthorizedComponent, title: 'Unauthorized'},

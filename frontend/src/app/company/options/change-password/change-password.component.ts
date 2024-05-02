@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { CompanyService } from '../../company.service';
 
 @Component({
   selector: 'app-change-password',
@@ -29,7 +30,7 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.css'
 })
-export class ChangePasswordComponent {
+export class C_ChangePasswordComponent {
 
   
   showContent: boolean = false;
@@ -41,7 +42,7 @@ export class ChangePasswordComponent {
 
   changePasswordForm: FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private companyService: CompanyService) {}
 
   ngOnInit(): void {
     this.changePasswordForm = this.formBuilder.group({
@@ -69,7 +70,7 @@ export class ChangePasswordComponent {
     
     let changePasswordJSON: ChangePassword = this.changePasswordForm.value;
 
-    this.userService.changePasswordByToken(changePasswordJSON).subscribe((response: Response) => {
+    this.companyService.changePasswordByToken(changePasswordJSON).subscribe((response: Response) => {
       console.log(response);
 
       if (response.response !== "ok") {
