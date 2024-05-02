@@ -1,1 +1,61 @@
-<p>account-details works!</p>
+
+
+<app-sidebar></app-sidebar>
+
+
+<div id="account-details" class="content" *ngIf="showContent">
+    
+    <form [formGroup]="editCompanyForm" id="edit-user-form">
+        <p class="fs-3 text-center mb-3">Account details</p>
+        <div class="alert alert-danger d-flex flex-row justify-content-space-between align-items-center" *ngIf="errorMessage">
+            {{errorMessage}}
+            <button type="button" class="btn-close me-2 m-auto" (click)="errorMessage = ''" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-success d-flex flex-row justify-content-space-between align-items-center" *ngIf="successMessage">
+            {{successMessage}}
+            <button type="button" class="btn-close me-2 m-auto" (click)="successMessage = ''" aria-label="Close"></button>
+        </div>
+        <mat-form-field class="full-width mb-1">
+            <mat-label>Firstname</mat-label>
+            <input type="text" id="name" placeholder="Name" formControlName="name" matInput >
+            @if(editCompanyForm.get('name')?.invalid && editCompanyForm.get('name')?.touched) {
+                <mat-error>Name is invalid</mat-error>
+            }
+        </mat-form-field>
+
+        
+        <mat-form-field class="full-width mb-1">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput formControlName="email" autocomplete="username"
+                   placeholder="Ex. pat@example.com">
+            @if(editCompanyForm.get('email')?.invalid && editCompanyForm.get('email')?.touched){
+                <mat-error>Invalid email!</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field class="full-width mb-1">
+            <mat-label>Website</mat-label>
+            <input type="text" id="website" placeholder="Website (Ex. https://mydomain.com)" formControlName="website" matInput >
+            @if(editCompanyForm.get('website')?.invalid && editCompanyForm.get('website')?.touched) {
+                <mat-error>Website is invalid</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field class="full-width mb-1">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" autocomplete="current-password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            @if(editCompanyForm.get('password')?.invalid && editCompanyForm.get('password')?.touched){
+                <mat-error>Invalid password!</mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="full-width w-100" (click)="saveChanges()" [disabled]="editCompanyForm.invalid">Update details</button>
+    </form>
+</div>
+
+<div *ngIf="showSpinner">
+    <app-spinner></app-spinner>
+</div>

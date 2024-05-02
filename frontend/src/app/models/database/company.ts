@@ -5,5 +5,11 @@ export class Company {
     name: string = '';
     email: string = '';
     website: string = '';
-    jobs: Job[] | undefined = []
+    jobs: Job[] | undefined = [];
+    
+    password: string = '';
+    new_password: string = '';
+    confirm_new_password: string = '';
+
+    response: string = '';
 }

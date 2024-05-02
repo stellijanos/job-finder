@@ -78,10 +78,9 @@ class CompanyController extends Controller
         }
     
 
-        $company->firstname = filter_var(request()->get('firstname'), FILTER_SANITIZE_STRING);
-        $company->middlename = filter_var(request()->get('middlename'), FILTER_SANITIZE_STRING);
-        $company->lastname = filter_var(request()->get('lastname'), FILTER_SANITIZE_STRING);
-        $company->email = $email;
+        $company->name = filter_var(request()->get('name'), FILTER_SANITIZE_STRING);
+        $company->email = filter_var(request()->get('email'), FILTER_SANITIZE_EMAIL);
+        $company->website = filter_var(request()->get('website'), FILTER_SANITIZE_URL);
 
 
         $company->token_expires_at = Carbon::now()->addDays(30)->toDateTimeString();

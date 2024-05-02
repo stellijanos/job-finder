@@ -38,7 +38,7 @@ export const routes: Routes = [
     {path: 'company', component: CompanyHomeComponent, canActivate: [canActivateCompany], title:'Home - Company | JobFinder'},
     {path: 'company/jobs', component: C_JobsComponent, canActivate: [canActivateCompany], title: 'Jobs'},
     {path: 'company/applications', component: C_JobsComponent, canActivate: [canActivateCompany], title: ' Applications'},
-    {path: 'commany/account-details', component: C_AccountDetailsComponent, canActivate: [canActivateCompany], title:'Account details'},
+    {path: 'company/account-details', component: C_AccountDetailsComponent, canActivate: [canActivateCompany], title:'Account details'},
     {path: 'company/change-password', component: C_ChangePasswordComponent, canActivate: [canActivateCompany], title: 'Change Password'},
     {path: 'company/delete-account', component: C_DeleteAccountComponent, canActivate: [canActivateCompany], title: 'Delete Account'},
    
