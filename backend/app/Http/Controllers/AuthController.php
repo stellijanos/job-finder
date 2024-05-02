@@ -100,15 +100,6 @@ class AuthController extends Controller
         return response()->json(['response' => 'ok']);
     }
 
-
-    // ->withHeaders([
-    //     "Content-Type" => "application/json",
-    //     "Access-Control-Allow-Origin" => "*",
-    //     "Access-Control-Allow-Methods" => "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
-    //     "Access-Control-Allow-Headers" => "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
-    // ])
-
-
     private function loginCompany($company, $credentials) {
 
         if (!Hash::check($credentials['password'], $company->password)) {
@@ -171,21 +162,35 @@ class AuthController extends Controller
 
 
 
-    public function logout(string $token) {
-        $user = User::where('token', $token)->first();
+    private function logoutUser($user) {
+        $user->token_expires_at = Carbon::now()->toDateTimeString();
+        $user->save();
+        return response()->json(['response'=>'ok']);
+    }
 
-        if ($user) {
-            $user->token_expires_at = Carbon::now()->toDateTimeString();
-            $user->save();
-            Auth::logout();
-            return response()->json(['response'=>'ok']);
-        }
-        return response()->json(['response' => 'Invalid token']);
+    private function logoutCompany($company) {
+        $company->token_expires_at = Carbon::now()->toDateTimeString();
+        $company->save();
+        return response()->json(['response'=>'ok']);
     }
 
 
 
- 
+    public function logout(string $token) {
+
+        $user = User::where('token', $token)->first();
+        if ($user) {
+           return $this->logoutUser($user);
+        }
+
+        $company = Company::where('token', $token)->first();
+        if ($company) {
+           return $this->logoutUser($company);
+        }
+
+        return response()->json(['response' => 'Invalid token']);
+    }
+
 
 
     private function isLoggedInUser($user, $token) {
