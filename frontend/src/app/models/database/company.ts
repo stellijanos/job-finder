@@ -5,7 +5,7 @@ export class Company {
     name: string = '';
     email: string = '';
     website: string = '';
-    jobs: Job[] | undefined = [];
+    jobs: Job[] = [];
     
     password: string = '';
     new_password: string = '';

@@ -1,1 +1,14 @@
-<p>jobs works!</p>
+
+
+
+<app-sidebar></app-sidebar>
+
+<div class="content" *ngIf="showContent">
+    
+    
+    <app-create-job-modal></app-create-job-modal>
+
+</div>
+<div *ngIf="showSpinner">
+    <app-spinner></app-spinner>
+</div>
