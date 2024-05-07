@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description', 1024)->nullable(false);
             $table->float('salary', 8, 2)->nullable(false);
             $table->string('location', 128)->nullable(false);
+            $table->string('type', 32)->nullable(false);
             $table->timestamps();
             $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

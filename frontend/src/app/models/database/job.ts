@@ -13,4 +13,5 @@ export class Job {
     category: Category | undefined;
     skills: Skill[] | undefined;
     applications: Application[] | undefined;
+    skills_str: String = '';
 }

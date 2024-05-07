@@ -8,50 +8,52 @@
   <!-- Modal -->
   <div class="modal fade" id="create-job-modal" tabindex="-1" aria-labelledby="create-job-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
+      <form class="modal-content" [formGroup]="createJobForm" (ngSubmit)="createJob()">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="create-job-modal-label">Create job</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
             <div class="form-floating mb-3">
-                <input type="text" name="title" id="title" class="form-control" placeholder="title">
+                <input type="text" name="title" id="title" class="form-control" placeholder="title" formControlName="title">
                 <label for="title">Title*</label>
             </div>
             <div class="form-floating mb-3">
-                <textarea type="text" name="description" id="description" class="form-control" placeholder="description" style="height:100px"></textarea>
+                <textarea type="text" name="description" id="description" class="form-control" placeholder="description" style="height:100px" formControlName="description"></textarea>
                 <label for="description">Description*</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="number" name="salary" id="salary" class="form-control" placeholder="Salary">
+                <input type="number" name="salary" id="salary" class="form-control" placeholder="Salary" formControlName="salary">
                 <label for="salary">Salary*</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="text" name="location" id="location" class="form-control" placeholder="location">
+                <input type="text" name="location" id="location" class="form-control" placeholder="location" formControlName="location">
                 <label for="location">Location*</label>
             </div>
             <div class="form-floating mb-3">
-                <select name="type" id="type" class="form-control">
-                    <option value="full_time">Full time</option>
-                    <option value="part_time">Part time</option>
-                    <option value="internship">Internship</option>
+                <select name="type" id="type" class="form-control" formControlName="type">
+                    <option value="Full time">Full time</option>
+                    <option value="Part time">Part time</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Contract">Contract</option>
                 </select>
                 <label for="type">Type</label>
             </div>
-            <div class="form-floating mb-5">
-                <select name="category" id="category" class="form-control">
-                    <option value="{{category.id}}" *ngFor="let category of categories">{{category.name}}</option>
+            <div class="mb-3">
+                <select name="category" id="category" formControlName="category" class="form-select">
+                  <option value="" disabled>Select a category*</option>
+                  <option value="{{category.id}}" *ngFor="let category of categories">{{category.name}}</option>
                 </select>
-                <label for="category">Category</label>
             </div>
-            <button type="submit">Create job</button>
-          </form>
+            <div class="form-floating mb-3">
+              <input type="text" name="skills" class="form-control" id="skills" placeholder="Required skills (separate them with ;)" formControlName="skills_str">
+              <label for="skills">Required skills (separate them with ; )</label>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Create job</button>
         </div>
-      </div>
+    </form>
     </div>
   </div>
