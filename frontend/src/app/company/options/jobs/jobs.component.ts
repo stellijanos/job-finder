@@ -11,6 +11,7 @@ import { CreateJobModalComponent } from '../../create-job-modal/create-job-modal
 import { Category } from '../../../models/database/category';
 import { createInjectableType } from '@angular/compiler';
 import { CategoryComponent } from '../../../category/category.component';
+import { SkillComponent } from '../../../skill/skill.component';
 
 @Component({
   selector: 'app-jobs',
@@ -22,7 +23,8 @@ import { CategoryComponent } from '../../../category/category.component';
     ReactiveFormsModule, 
     SpinnerComponent,
     CreateJobModalComponent,
-    CategoryComponent
+    CategoryComponent,
+    SkillComponent
   ],
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.css'

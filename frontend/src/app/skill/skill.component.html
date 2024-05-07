@@ -1,1 +1,28 @@
-<p>skill works!</p>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#skill-modal">View skills</button>
+
+  <div class="modal fade" id="skill-modal" tabindex="-1" aria-labelledby="skill-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <form class="modal-content" [formGroup]="createForm" (ngSubmit)="onSubmit()">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="skill-modal-label">View skills</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3 input-group">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Search skill" formControlName="name" (keyup)="searchSkill()">
+                <button type="submit" class="btn btn-success" [disabled]="filtered.length !== 0">Add</button>
+            </div>
+            <div class="list-all">
+                <div class="mb-2" *ngFor="let skill of filtered">
+                    <li>{{skill.name}}</li>
+                </div>
+            </div>            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+          <!-- <button type="button" class="btn btn-primary">OK</button> -->
+        </div>
+    </form>
+    </div>
+  </div>
