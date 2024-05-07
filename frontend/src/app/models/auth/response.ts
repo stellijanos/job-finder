@@ -3,4 +3,5 @@ export interface Response {
     token: string,
     is_user: boolean,
     is_company: boolean 
+    data: any
 }

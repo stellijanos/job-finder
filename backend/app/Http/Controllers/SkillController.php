@@ -8,6 +8,19 @@ use Illuminate\Http\Request;
 class SkillController extends Controller
 {
     public function getAll() {
-        return response()->json(Skill::with('jobs')->get());
+        return response()->json(Skill::all());
+    }
+
+    public function create() {
+
+        $name = filter_var(request()->get('name'), FILTER_SANITIZE_STRING);
+        if (!$name) {
+            return response()->json(['response' => 'Invalid name']);
+        }
+
+        Skill::create([
+            'name' => $name
+        ]);
+        return response()->json(['respone' => 'ok']);
     }
 }

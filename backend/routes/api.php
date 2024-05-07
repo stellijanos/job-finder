@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SkillController;
@@ -59,9 +60,14 @@ Route::middleware([CorsMiddleware::class])->group(function() {
         Route::delete('/token/{token}/{password}', [CompanyController::class, 'deleteByToken']);
 
     });
+
+
+    Route::post('/skill', [SkillController::class, 'create']);
+    Route::post('/category', [CategoryController::class, 'create']);
     
     Route::get('/jobs', [JobController::class, 'getAll']);
     Route::get('/skills', [SkillController::class, 'getAll']);
+    Route::get('/categories', [CategoryController::class, 'getAll']);
 
     Route::any('{any}', fn() => response()->json(['response' => 'Bad request'], 400))->where('any', '.*');
 

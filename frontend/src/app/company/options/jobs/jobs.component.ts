@@ -9,6 +9,8 @@ import { SpinnerComponent } from '../../../ui-components/spinner/spinner.compone
 import { Router } from '@angular/router';
 import { CreateJobModalComponent } from '../../create-job-modal/create-job-modal.component';
 import { Category } from '../../../models/database/category';
+import { createInjectableType } from '@angular/compiler';
+import { CategoryComponent } from '../../../category/category.component';
 
 @Component({
   selector: 'app-jobs',
@@ -19,7 +21,8 @@ import { Category } from '../../../models/database/category';
     FormsModule, 
     ReactiveFormsModule, 
     SpinnerComponent,
-    CreateJobModalComponent
+    CreateJobModalComponent,
+    CategoryComponent
   ],
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.css'

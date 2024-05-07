@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Job;
 use Illuminate\Http\Request;
 
@@ -13,4 +14,16 @@ class JobController extends Controller
             $query->where('name', 'Java');
         })->get());
     }
+
+
+    public function create($token) {
+
+        $company = Company::where('token', $token)->first();
+
+        if (!$company) {
+            return response()->json(['response' => 'Company not found!']);
+        }
+
+        
+    } 
 }
