@@ -4,14 +4,16 @@ import { CompanyService } from '../../company.service';
 import { Company } from '../../../models/database/company';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SpinnerComponent } from '../../../ui-components/spinner/spinner.component';
-import { Router } from '@angular/router';
-import { CreateJobModalComponent } from '../../create-job-modal/create-job-modal.component';
 import { Category } from '../../../models/database/category';
-import { createInjectableType } from '@angular/compiler';
 import { CategoryComponent } from '../../../category/category.component';
 import { SkillComponent } from '../../../skill/skill.component';
+import { CategoryService } from '../../../category/category.service';
+import { SkillService } from '../../../skill/skill.service';
+import { JobService } from '../../../job/job.service';
+import { Skill } from '../../../models/database/skill';
+import { Response } from '../../../models/auth/response';
 
 @Component({
   selector: 'app-jobs',
@@ -22,7 +24,6 @@ import { SkillComponent } from '../../../skill/skill.component';
     FormsModule, 
     ReactiveFormsModule, 
     SpinnerComponent,
-    CreateJobModalComponent,
     CategoryComponent,
     SkillComponent
   ],
@@ -31,40 +32,144 @@ import { SkillComponent } from '../../../skill/skill.component';
 })
 export class C_JobsComponent implements OnInit {
 
-
   jobs : Job[] = [];
+  categories: Category[] = [];
+  skills: Skill[] = [];
 
-  
+  filteredCategories: Category[] = [];
+  filteredSkills: Skill[] = [];
 
-  showContent: boolean = false;
+  createJobForm : FormGroup = new FormGroup({});
+  createCategoryForm: FormGroup = new FormGroup({});
+  createSkillForm: FormGroup = new FormGroup({});
+
   showSpinner: boolean = true;
-  showNotFound: boolean = false;
-
   errorMessage: string = '';
   successMessage: string = '';
 
 
-  
-  constructor(private companyService: CompanyService, private router: Router) {}
+  constructor(
+    private companyService: CompanyService, 
+    private formBuilder: FormBuilder, 
+    private categoryService: CategoryService, 
+    private skillService: SkillService,
+    private jobService: JobService
+  ) {}
 
   ngOnInit(): void {
-    this.companyService.getByToken().subscribe((company: Company) => {
-      this.jobs = company.jobs || [];
-      console.log(this.jobs);
+    this.initJobForm();
+    this.initCategoryForm();
+    this.initSkillForm();
+    this.loadData();
+  }
 
-      this.toggleContent();
+
+  private initJobForm(): void {
+    this.createJobForm = this.formBuilder.group({
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      salary: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      category: ['', [Validators.required]],
+      skills: [[]]
     });
   }
 
 
-
-  toggleContent() {
-    this.showSpinner = !this.showSpinner;
-    this.showContent = !this.showContent;
+  private initCategoryForm(): void {
+    this.createCategoryForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.maxLength(64)]]
+    });
   }
 
 
+  private initSkillForm(): void {
+    this.createSkillForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.maxLength(64)]]
+    });
+  }
+
+
+  private loadData(): void {
+    this.categoryService.getAll().subscribe((categories: Category[]) => this.categories =  this.filteredCategories = categories); 
+    this.skillService.getAll().subscribe((skills: Skill[]) => this.skills = this.filteredSkills = skills);
+
+    this.companyService.getByToken().subscribe((company: Company) => {
+      this.jobs = company.jobs || [];
+      this.showSpinner = false;
+    });
+  }
+
+
+  toggleSkill(id: number) {
+
+    const skillsArray = this.createJobForm.get('skills')?.value as Array<Number>;
+    const skillIndex = skillsArray.indexOf(id);
+  
+    if (skillIndex > -1) {
+      skillsArray.splice(skillIndex, 1);
+    } else {
+      skillsArray.push(id);
+    }
+    this.createJobForm.get('skills')?.setValue(skillsArray);
+  }
+
+
+  searchCategory() {
+    this.filteredCategories = this.categories.filter(category => category.name.toLowerCase().includes(this.createCategoryForm.get('name')?.value ));
+  }
+
+  
+  searchSkill() {
+    this.filteredSkills = this.skills.filter(skill => skill.name.toLowerCase().includes(this.createSkillForm.get('name')?.value.toLowerCase()));
+  }
+
+
+  createJob() {
+
+    this.showSpinner = true;
+
+    if (this.createJobForm.valid) {
+      let job :Job = this.createJobForm.value;
+
+      this.jobService.create(job).subscribe((job: Job) => {
+        this.jobs.push(job);
+        this.showSpinner = false;
+      });
+    }
+  }
+
+
+  createCategory() {
+    let category: Category = this.createCategoryForm.value;
+    console.log(category);
+
+    this.categoryService.create(category).subscribe((response: Response) => {
+      if (response.response === "ok") {
+        console.log(response);
+        this.categories.push(response.data);
+      }
+      this.createCategoryForm.reset('name');
+      this.filteredCategories = this.categories;
+    });
+
+  }
+
+
+  createSkill() {
+    let skill: Skill = this.createSkillForm.value;
+    console.log(skill);
+
+    this.skillService.create(skill).subscribe((response: Response) => {
+      if (response.response === "ok") {
+        console.log(response);
+        this.skills.push(response.data);
+      }
+
+      this.createSkillForm.reset('name');
+      this.filteredSkills = this.skills;
+    });
+  }
+
 }
-
-
-

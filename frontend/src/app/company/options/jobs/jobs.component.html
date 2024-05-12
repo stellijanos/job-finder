@@ -3,13 +3,143 @@
 
 <app-sidebar></app-sidebar>
 
-<div class="content" *ngIf="showContent">
+<div class="content" *ngIf="!showSpinner">
     
-    
-    <app-create-job-modal></app-create-job-modal>
-    <app-category></app-category>
-    <app-skill></app-skill>
 
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-job-modal">
+        create job
+    </button>
+  
+    <div class="modal fade" id="create-job-modal" tabindex="-1" aria-labelledby="create-job-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <form class="modal-content" [formGroup]="createJobForm" (ngSubmit)="createJob()">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="create-job-modal-label">Create job</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="title" id="title" class="form-control" placeholder="title" formControlName="title">
+                        <label for="title">Title*</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea type="text" name="description" id="description" class="form-control" placeholder="description" style="height:100px" formControlName="description"></textarea>
+                        <label for="description">Description*</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" name="salary" id="salary" class="form-control" placeholder="Salary" formControlName="salary">
+                        <label for="salary">Salary*</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="location" id="location" class="form-control" placeholder="location" formControlName="location">
+                        <label for="location">Location*</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select name="type" id="type" class="form-control" formControlName="type">
+                            <option value="Full time">Full time</option>
+                            <option value="Part time">Part time</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Contract">Contract</option>
+                        </select>
+                        <label for="type">Type</label>
+                    </div>
+                    <div class="mb-3">
+                        <select name="category" id="category" formControlName="category" class="form-select">
+                        <option value="" disabled>Select a category*</option>
+                        <option value="{{category.id}}" *ngFor="let category of categories">{{category.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <p>Skills</p>
+                        <div class="form-check" *ngFor="let skill of skills">
+                            
+                            <input class="form-check-input" type="checkbox" id="{{skill.id}}" (change)="toggleSkill(skill.id)">
+                            <label class="form-check-label" for="{{skill.id}}">
+                            {{skill.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="createJobForm.invalid">Create job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- App category ---------------------------------------------------------------------------->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#category-modal">View categories</button>
+
+    <div class="modal fade" id="category-modal" tabindex="-1" aria-labelledby="category-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <form class="modal-content" [formGroup]="createCategoryForm" (ngSubmit)="createCategory()">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="category-modal-label">View categories</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3 input-group">
+                  <input type="text" name="name" id="name" class="form-control" placeholder="Search category" formControlName="name" (keyup)="searchCategory()">
+                  <button type="submit" class="btn btn-success" [disabled]="filteredCategories.length !== 0">Add</button>
+              </div>
+              <div class="list-all">
+                  <div class="mb-2" *ngFor="let category of filteredCategories">
+                      <li>{{category.name}}</li>
+                  </div>
+              </div>            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            <!-- <button type="button" class="btn btn-primary">OK</button> -->
+          </div>
+      </form>
+      </div>
+    </div>
+  
+
+    <!-------App skill------------------------------------------------------------------------>
+    
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#skill-modal">View skills</button>
+
+  <div class="modal fade" id="skill-modal" tabindex="-1" aria-labelledby="skill-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <form class="modal-content" [formGroup]="createSkillForm" (ngSubmit)="createSkill()">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="skill-modal-label">View skills</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3 input-group">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Search skill" formControlName="name" (keyup)="searchSkill()">
+                <button type="submit" class="btn btn-success" [disabled]="filteredSkills.length !== 0">Add</button>
+            </div>
+            <div class="list-all">
+                <div class="mb-2" *ngFor="let skill of filteredSkills">
+                    <li>{{skill.name}}</li>
+                </div>
+            </div>            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+          <!-- <button type="button" class="btn btn-primary">OK</button> -->
+        </div>
+    </form>
+    </div>
+  </div>
+
+
+
+    <!-- ----------------------------------------------------------------------------------- -->
+
+    <div class="list-jobs">
+        <div class="job" *ngFor="let job of jobs; let i = index">
+            {{i + 1}}. 
+            {{job.title}}
+            {{job.description}}
+            {{job.salary}}
+        </div>
+    </div>
 </div>
 <div *ngIf="showSpinner">
     <app-spinner></app-spinner>

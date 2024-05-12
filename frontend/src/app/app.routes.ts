@@ -41,7 +41,8 @@ export const routes: Routes = [
     {path: 'company/account-details', component: C_AccountDetailsComponent, canActivate: [canActivateCompany], title:'Account details'},
     {path: 'company/change-password', component: C_ChangePasswordComponent, canActivate: [canActivateCompany], title: 'Change Password'},
     {path: 'company/delete-account', component: C_DeleteAccountComponent, canActivate: [canActivateCompany], title: 'Delete Account'},
-   
+    // {path: 'company/jobs/create', component: C_JobsComponent, canActivate: [canActivateCompany], title: 'Create Job | JobFinder'},
+
     {path: 'account-deleted', component: AccountDeletedComponent, title: 'Account deleted'},
 
     {path: 'unauthorized', component: UnauthorizedComponent, title: 'Unauthorized'},

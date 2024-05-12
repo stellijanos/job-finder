@@ -37,25 +37,4 @@ export class SkillComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    let skill: Skill = this.createForm.value;
-    console.log(skill);
-
-    this.skillService.create(skill).subscribe((response: Response) => {
-      if (response.response === "ok") {
-        console.log(response);
-        this.skills.push(response.data);
-      }
-    });
-
-    this.createForm.reset('name');
-
-    this.filtered = this.skills;
-  }
-
-  searchSkill() {
-
-    this.filtered = this.skills.filter(skill => skill.name.toLowerCase().includes(this.createForm.get('name')?.value.toLowerCase()));
-  }
-
 }
