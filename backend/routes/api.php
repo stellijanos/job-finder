@@ -73,6 +73,16 @@ Route::middleware([CorsMiddleware::class])->group(function() {
     Route::get('/skills', [SkillController::class, 'getAll']);
     Route::get('/categories', [CategoryController::class, 'getAll']);
 
+
+    Route::prefix('concurrencies')->group(function() {
+        Route::get('/lost-update', [CategoryController::class, 'updateCategoryNameTwice']);
+        Route::get('/dirty-read', [CategoryController::class, 'readUncommittedCategoryName']);
+        Route::get('/incorrect-summary', [CategoryController::class, 'calculateTotalNumberOfCategories']);
+        Route::get('/unrepeatable-read', [CategoryController::class, 'demonstrateUnrepeatableRead']);
+        Route::get('/phantom-read', [CategoryController::class, 'demonstratePhantomRead']);
+    });
+
+
     Route::any('{any}', fn() => response()->json(['response' => 'Bad request'], 400))->where('any', '.*');
 
 });
