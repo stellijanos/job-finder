@@ -221,8 +221,15 @@ export class C_JobsComponent implements OnInit {
     });
   }
 
-  deleteJob() {
-
+  deleteJob(id: Number) {
+    this.jobService.delete(id).subscribe((response: Response) => {
+      if (response.response === "ok") {
+        
+        const index = this.jobs.findIndex(j => j.id === id);
+        if (index !== -1) {
+          this.jobs.splice(index, 1); 
+        }
+      }
+    });
   }
-
 }

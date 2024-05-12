@@ -148,7 +148,7 @@
 
             <div class="buttons">
                 <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#create-job-modal" (click)="editingJob = true; editJob(job)">Edit</button>
-                <button class="btn btn-danger" (click)="deleteJob()">Delete</button>
+                <button class="btn btn-danger" (click)="deleteJob(job.id)">Delete</button>
             </div>
         </div>
     </div>

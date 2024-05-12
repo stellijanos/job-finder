@@ -14,6 +14,7 @@ class JobController extends Controller
     }
 
 
+
     public function create($token) {
 
         $validator = Validator::make(request()->all(), [
@@ -109,7 +110,7 @@ class JobController extends Controller
 
         $job->save();
 
-        $job->skills()->attach(request()->get('skills'));
+        $job->skills()->sync(request()->get('skills'));
 
         $job->load('skills', 'category', 'applications');
 
@@ -118,5 +119,22 @@ class JobController extends Controller
             'data' => $job
         ]);
     }
+
+
+    public function delete($token, $id) {
+        $company = Company::where('token', $token)->first();
+        if (!$company) {
+            return response()->json(['response' => 'Company not found!']);
+        }
+
+        $job = Job::find($id);
+        if (!$job) {
+            return response()->json(['response' => 'Job not found.']);
+        }
+
+        $job->delete();
+        return response()->json(['response' => 'ok']);
+    }
 }
+
 

@@ -7,8 +7,6 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CorsMiddleware;
-use App\Http\Middleware\SetResponseHeader;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,17 +57,19 @@ Route::middleware([CorsMiddleware::class])->group(function() {
         Route::patch('/token/{token}', [CompanyController::class, 'changePassword']);
         Route::delete('/token/{token}/{password}', [CompanyController::class, 'deleteByToken']);
 
+        Route::post('/{token}/job', [JobController::class, 'create']);
+        Route::put('/{token}/job', [JobController::class, 'update']);
+        Route::delete('/{token}/job/{id}', [JobController::class, 'delete']);
+
     });
 
-    Route::put('/job/{token}', [JobController::class, 'update']);
-
+    Route::get('/jobs', [JobController::class, 'getAll']);
+   
 
     Route::post('/skill', [SkillController::class, 'create']);
     Route::post('/category', [CategoryController::class, 'create']);
 
-    Route::post('/job/{token}', [JobController::class, 'create']);
-    
-    Route::get('/jobs', [JobController::class, 'getAll']);
+
     Route::get('/skills', [SkillController::class, 'getAll']);
     Route::get('/categories', [CategoryController::class, 'getAll']);
 

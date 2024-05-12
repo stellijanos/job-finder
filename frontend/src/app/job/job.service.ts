@@ -22,7 +22,7 @@ export class JobService {
   }
 
   create(job: Job): Observable<Response> {
-    return this.http.post<Response>(`${this.apiUrl}/job/${this.tokenService.getToken()}`, job, this.httpOptions);
+    return this.http.post<Response>(`${this.apiUrl}/company/${this.tokenService.getToken()}/job`, job, this.httpOptions);
   }
 
   getAll(): Observable<Job[]> {
@@ -30,7 +30,12 @@ export class JobService {
   }
 
   update(job: Job): Observable<Response> {
-    return this.http.put<Response>(`${this.apiUrl}/job/${this.tokenService.getToken()}`, job, this.httpOptions);
+    return this.http.put<Response>(`${this.apiUrl}/company/${this.tokenService.getToken()}/job`, job, this.httpOptions);
+  }
+
+  
+  delete(id: Number): Observable<Response> {
+    return this.http.delete<Response>(`${this.apiUrl}/company/${this.tokenService.getToken()}/job/${id}`, this.httpOptions);
   }
 
   
