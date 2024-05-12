@@ -61,6 +61,8 @@ Route::middleware([CorsMiddleware::class])->group(function() {
 
     });
 
+    Route::put('/job/{token}', [JobController::class, 'update']);
+
 
     Route::post('/skill', [SkillController::class, 'create']);
     Route::post('/category', [CategoryController::class, 'create']);

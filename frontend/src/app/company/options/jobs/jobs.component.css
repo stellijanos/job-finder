@@ -3,3 +3,28 @@
 .content {
     margin-left:200px;
 }
+
+
+.list-jobs {
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap:2rem;
+    margin-top:20px;
+
+    padding: 0 20px;
+}
+
+.job {
+    border:1px solid #000;
+    padding: 15px;
+    border-radius:10px;
+    width:400px;
+    height:400px;
+}
+
+.job:hover {
+    background-color: darkgrey;
+}

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenService } from '../token/token.service';
 import { Job } from '../models/database/job';
 import { Observable } from 'rxjs';
+import { Response } from '../models/auth/response';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +21,16 @@ export class JobService {
     })
   }
 
-  create(job: Job): Observable<Job> {
-    return this.http.post<Job>(`${this.apiUrl}/job/${this.tokenService.getToken()}`, job, this.httpOptions);
+  create(job: Job): Observable<Response> {
+    return this.http.post<Response>(`${this.apiUrl}/job/${this.tokenService.getToken()}`, job, this.httpOptions);
   }
 
   getAll(): Observable<Job[]> {
     return this.http.get<Job[]>(`${this.apiUrl}/jobs`, this.httpOptions);
+  }
+
+  update(job: Job): Observable<Response> {
+    return this.http.put<Response>(`${this.apiUrl}/job/${this.tokenService.getToken()}`, job, this.httpOptions);
   }
 
   

@@ -33,7 +33,7 @@ class CompanyController extends Controller
 
     public function getByToken($token) {
    
-        $company = Company::with(['jobs.skills', 'jobs.applications'])->where('token', $token)->first();
+        $company = Company::with(['jobs.skills', 'jobs.applications', 'jobs.category'])->where('token', $token)->first();
 
         if (!$company) {
             return response()->json(['response' => 'No company found!'], 404);

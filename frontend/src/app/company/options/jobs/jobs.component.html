@@ -12,9 +12,9 @@
   
     <div class="modal fade" id="create-job-modal" tabindex="-1" aria-labelledby="create-job-modal-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
-            <form class="modal-content" [formGroup]="createJobForm" (ngSubmit)="createJob()">
+            <form class="modal-content" [formGroup]="createJobForm" (ngSubmit)="editingJob ? updateJob() : createJob()">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="create-job-modal-label">Create job</h1>
+                    <h1 class="modal-title fs-5" id="create-job-modal-label">{{ editingJob ? 'Edit job' : 'Create job' }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -53,7 +53,7 @@
                         <p>Skills</p>
                         <div class="form-check" *ngFor="let skill of skills">
                             
-                            <input class="form-check-input" type="checkbox" id="{{skill.id}}" (change)="toggleSkill(skill.id)">
+                            <input class="form-check-input" type="checkbox" [checked]="selectedSkills.includes(skill.id)" id="{{skill.id}}" (change)="toggleSkill(skill.id)">
                             <label class="form-check-label" for="{{skill.id}}">
                             {{skill.name}}
                             </label>
@@ -61,8 +61,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="createJobForm.invalid">Create job</button>
+                    <button type="button" class="btn btn-secondary" [attr.data-bs-dismiss]="editingJob ? null : 'modal'">Close</button>
+
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="createJobForm.invalid">{{editingJob ? 'Update' : 'Create'}} job</button>
                 </div>
             </form>
         </div>
@@ -134,10 +135,21 @@
 
     <div class="list-jobs">
         <div class="job" *ngFor="let job of jobs; let i = index">
-            {{i + 1}}. 
-            {{job.title}}
-            {{job.description}}
-            {{job.salary}}
+            <p class="fw-bold">{{i + 1}}. {{job.title}}</p>
+            <p>Category: {{job.category.name}}</p>
+            <p>Location: {{job.location}}</p>
+            <p>Description: {{job.description}}</p>
+            <p>Required skills</p>
+            <ul>
+                <li *ngFor="let skill of job.skills">{{skill.name}}</li>
+            </ul>
+            <p>Monthly salary {{job.salary | currency: 'EUR'}}</p>
+            <p>Yearly salary {{job.salary * 12 | currency: 'EUR'}}</p>
+
+            <div class="buttons">
+                <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#create-job-modal" (click)="editingJob = true; editJob(job)">Edit</button>
+                <button class="btn btn-danger" (click)="deleteJob()">Delete</button>
+            </div>
         </div>
     </div>
 </div>

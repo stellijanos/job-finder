@@ -14,4 +14,10 @@ class Company extends Model
     public function jobs(): HasMany {
         return $this->hasMany(Job::class);
     }
+
+    protected $hidden = [
+        'password',
+        'token',
+        'token_expires_at'
+    ];
 }

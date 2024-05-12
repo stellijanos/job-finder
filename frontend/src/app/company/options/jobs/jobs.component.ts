@@ -38,12 +38,15 @@ export class C_JobsComponent implements OnInit {
 
   filteredCategories: Category[] = [];
   filteredSkills: Skill[] = [];
+  selectedSkills: Number[] = [];
 
   createJobForm : FormGroup = new FormGroup({});
   createCategoryForm: FormGroup = new FormGroup({});
   createSkillForm: FormGroup = new FormGroup({});
 
   showSpinner: boolean = true;
+  editingJob: boolean = false;
+
   errorMessage: string = '';
   successMessage: string = '';
 
@@ -104,15 +107,15 @@ export class C_JobsComponent implements OnInit {
 
   toggleSkill(id: number) {
 
-    const skillsArray = this.createJobForm.get('skills')?.value as Array<Number>;
-    const skillIndex = skillsArray.indexOf(id);
-  
+    // const skillsArray = this.createJobForm.get('skills')?.value as Array<Number>;
+    const skillIndex = this.selectedSkills.indexOf(id);
+
     if (skillIndex > -1) {
-      skillsArray.splice(skillIndex, 1);
+      this.selectedSkills.splice(skillIndex, 1);
     } else {
-      skillsArray.push(id);
+      this.selectedSkills.push(id);
     }
-    this.createJobForm.get('skills')?.setValue(skillsArray);
+    this.createJobForm.get('skills')?.setValue(this.selectedSkills);
   }
 
 
@@ -125,6 +128,49 @@ export class C_JobsComponent implements OnInit {
     this.filteredSkills = this.skills.filter(skill => skill.name.toLowerCase().includes(this.createSkillForm.get('name')?.value.toLowerCase()));
   }
 
+  editJob(job: Job) {
+    this.createJobForm = this.formBuilder.group({
+      id: [job.id],
+      title: [job.title, [Validators.required]],
+      description: [job.description, [Validators.required]],
+      salary: [job.salary, [Validators.required]],
+      location: [job.location, [Validators.required]],
+      type: [job.type, [Validators.required]],
+      category: [job.category.id, [Validators.required]],
+      skills: [[]]
+    });
+    this.selectedSkills = job.skills.map(skill => skill.id);
+    this.createJobForm.get('skills')?.setValue(this.selectedSkills);
+
+  }
+
+  updateJob() {
+    this.showSpinner = true;
+
+
+    if (this.createJobForm.valid) {
+      let job :Job = this.createJobForm.value;
+
+      this.jobService.update(job).subscribe((response: Response) => {
+        if (response.response === "ok") {
+          let updatedJob: Job = response.data;
+
+          const index = this.jobs.findIndex(j => j.id === response.data.id);
+          if (index !== -1) {
+            this.jobs[index] = updatedJob; 
+          }
+        }
+
+      
+        this.selectedSkills = [];
+
+        this.showSpinner = false;
+        this.editingJob = false;
+      });
+    }
+  }
+
+
 
   createJob() {
 
@@ -133,9 +179,16 @@ export class C_JobsComponent implements OnInit {
     if (this.createJobForm.valid) {
       let job :Job = this.createJobForm.value;
 
-      this.jobService.create(job).subscribe((job: Job) => {
-        this.jobs.push(job);
+      this.jobService.create(job).subscribe((response: Response) => {
+
+        if (response.response === "ok") {
+          let job : Job = response.data;
+          this.jobs.push(job);
+        }
+        
         this.showSpinner = false;
+        this.selectedSkills = [];
+        this.initJobForm();
       });
     }
   }
@@ -143,11 +196,9 @@ export class C_JobsComponent implements OnInit {
 
   createCategory() {
     let category: Category = this.createCategoryForm.value;
-    console.log(category);
 
     this.categoryService.create(category).subscribe((response: Response) => {
       if (response.response === "ok") {
-        console.log(response);
         this.categories.push(response.data);
       }
       this.createCategoryForm.reset('name');
@@ -159,17 +210,19 @@ export class C_JobsComponent implements OnInit {
 
   createSkill() {
     let skill: Skill = this.createSkillForm.value;
-    console.log(skill);
 
     this.skillService.create(skill).subscribe((response: Response) => {
       if (response.response === "ok") {
-        console.log(response);
         this.skills.push(response.data);
       }
 
       this.createSkillForm.reset('name');
       this.filteredSkills = this.skills;
     });
+  }
+
+  deleteJob() {
+
   }
 
 }
