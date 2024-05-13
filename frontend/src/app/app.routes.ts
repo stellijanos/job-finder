@@ -19,12 +19,15 @@ import { C_AccountDetailsComponent } from './company/options/account-details/acc
 import { C_ChangePasswordComponent } from './company/options/change-password/change-password.component';
 import { C_DeleteAccountComponent } from './company/options/delete-account/delete-account.component';
 import { C_JobsComponent } from './company/options/jobs/jobs.component';
+import { ConcurrencyProblemsComponent } from './concurrency-problems/concurrency-problems.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'login', pathMatch: 'full'},
     {path: 'register', component: RegisterComponent, canActivate: [canActivateAuthRoutes], title: 'Register | JobFinder'},
     {path: 'login', component: LoginComponent, canActivate: [canActivateAuthRoutes], title: 'Login | JobFinder'},
     {path: 'logout', component: LogoutComponent, title:'Logout - JobFinder'},
+
+    {path: 'concurrency-problems', component:ConcurrencyProblemsComponent, title: 'Concurrency Problems'},
     
     
     {path: 'user', component: UserHomeComponent, canActivate: [canActivateUser], title: 'Home - User | Jobfinder'},

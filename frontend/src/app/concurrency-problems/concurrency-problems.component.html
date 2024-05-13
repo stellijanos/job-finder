@@ -1,0 +1,11 @@
+
+<div style="padding:20px;">
+    <button (click)="testConcurrencies()" class="btn btn-warning mb-3">Test concurrencies</button>
+
+    <div class="alert alert-success" *ngFor="let message of successMessages">
+        {{message}}
+    </div>
+    <div class="alert alert-danger" *ngFor="let message of errorMessages">
+        {{message}}
+    </div>
+</div>

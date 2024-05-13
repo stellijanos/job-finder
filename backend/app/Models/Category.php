@@ -10,6 +10,7 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
 
     public function jobs(): HasMany {
         return $this->hasMany(Job::class);
