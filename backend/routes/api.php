@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ConcurrencyController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
@@ -75,13 +76,12 @@ Route::middleware([CorsMiddleware::class])->group(function() {
 
 
     Route::prefix('concurrencies')->group(function() {
-        Route::get('/lost-update', [CategoryController::class, 'updateCategoryNameTwice']);
-        Route::get('/dirty-read', [CategoryController::class, 'readUncommittedCategoryName']);
-        Route::get('/incorrect-summary', [CategoryController::class, 'calculateTotalNumberOfCategories']);
-        Route::get('/unrepeatable-read', [CategoryController::class, 'demonstrateUnrepeatableRead']);
-        Route::get('/phantom-read', [CategoryController::class, 'demonstratePhantomRead']);
+        Route::get('/lost-update', [ConcurrencyController::class, 'testLostUpdateProblem'])->name('lost-update');
+        Route::get('/dirty-read', [ConcurrencyController::class, 'testTemporaryUpdateProblem'])->name('temporary-update');
+        Route::get('/incorrect-summary', [ConcurrencyController::class, 'testIncorrectSummaryProblem'])->name('incorrect-summary');
+        Route::get('/unrepeatable-read', [ConcurrencyController::class, 'testUnrepeatableReadProblem'])->name('unrepeatable-read');
+        Route::get('/phantom-read', [ConcurrencyController::class, 'testPhantomReadProblem'])->name('phantom-read');
     });
-
 
     Route::any('{any}', fn() => response()->json(['response' => 'Bad request'], 400))->where('any', '.*');
 

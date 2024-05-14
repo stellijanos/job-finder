@@ -32,7 +32,8 @@ export class ConcurrencyProblemsComponent implements OnInit {
 
     this.service.lost_update().subscribe((response: Response) => {
       if (response.response === "ok") {
-        this.successMessages.push("Lost update successful");
+
+        this.successMessages.push("Lost update successful! Data: " + JSON.stringify(response.data));
       } else {
         this.errorMessages.push("Lost update failed!");
       }
@@ -42,7 +43,7 @@ export class ConcurrencyProblemsComponent implements OnInit {
     this.service.dirty_read().subscribe( {
       next: (response: Response) => {
         if (response.response === "ok") {
-          this.successMessages.push("Dirty read successful");
+          this.successMessages.push("Dirty read successful! Data: "  + JSON.stringify(response.data));
         } else {
           // Handle other types of responses, if necessary
           this.errorMessages.push("Unexpected response received");
@@ -55,7 +56,7 @@ export class ConcurrencyProblemsComponent implements OnInit {
 
     this.service.incorrect_summary().subscribe((response: Response) => {
       if (response.response === "ok") {
-        this.successMessages.push("Incorrect summary successful");
+        this.successMessages.push("Incorrect summary successful! Data: "  + JSON.stringify(response.data));
       } else {
         this.errorMessages.push("Incorrect summary failed!");
       }
@@ -63,7 +64,7 @@ export class ConcurrencyProblemsComponent implements OnInit {
 
     this.service.unrepeatable_read().subscribe((response: Response) => {
       if (response.response === "ok") {
-        this.successMessages.push("Unrepeatable read successful");
+        this.successMessages.push("Unrepeatable read successful! Data: "  + JSON.stringify(response.data));
       } else {
         this.errorMessages.push("Unrepeatable read failed!");
       }
@@ -72,7 +73,7 @@ export class ConcurrencyProblemsComponent implements OnInit {
 
     this.service.phantom_read().subscribe((response: Response) => {
       if (response.response === "ok") {
-        this.successMessages.push("Phantom read successful");
+        this.successMessages.push("Phantom read successful! Data: "  + JSON.stringify(response.data));
       } else {
         this.errorMessages.push("Phantom read failed!");
       }
