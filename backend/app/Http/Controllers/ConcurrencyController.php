@@ -13,7 +13,7 @@ class ConcurrencyController extends Controller
 {
     public function testLostUpdateProblem()
     {
-        $userId = 2; // Assume user with ID 7 exists
+        $userId = 2;
 
         $update1 = ['firstname' => 'Jane', 'lastname' => 'Doe', 'email' => 'jane.doe@example.com'];
         $update2 = ['firstname' => 'Alice', 'lastname' => 'Smith', 'email' => 'alice.smith@example.com'];
@@ -47,7 +47,7 @@ class ConcurrencyController extends Controller
 
     public function testTemporaryUpdateProblem()
     {
-        $userId = 3; // Assume user with ID 7 exists
+        $userId = 3; 
 
         DB::transaction(function () use ($userId) {
             $user = User::findOrFail($userId);
@@ -65,8 +65,8 @@ class ConcurrencyController extends Controller
 
     public function testIncorrectSummaryProblem()
     {
-        $userId1 = 2; // Assume user with ID 7 exists
-        $userId2 = 3; // Assume user with ID 8 exists
+        $userId1 = 2; 
+        $userId2 = 3; 
 
         DB::transaction(function () use ($userId1) {
             $user = User::findOrFail($userId1);
@@ -84,7 +84,7 @@ class ConcurrencyController extends Controller
 
     public function testUnrepeatableReadProblem()
     {
-        $userId = 2; // Assume user with ID 7 exists
+        $userId = 2; 
 
         $result = DB::transaction(function () use ($userId) {
             $user = User::findOrFail($userId);
